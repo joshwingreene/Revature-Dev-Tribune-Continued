@@ -1,0 +1,10 @@
+@model MvcApp.Client.Models.HomeViewModel
+
+@{
+  <ul>
+    foreach (var item in Model.Characters)
+    {
+    <li>@item</li>
+    }
+  </ul>
+}
