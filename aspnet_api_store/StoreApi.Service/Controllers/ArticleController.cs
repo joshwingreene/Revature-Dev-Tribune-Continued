@@ -11,17 +11,17 @@ namespace StoreApi.Service.Controllers
 {
   [ApiController]
   [Route("[controller]")]
-  public class StarTrekController : ControllerBase
+  public class ArticleController : ControllerBase
   {
-    private StarTrekContext _ctx = new StarTrekContext();
+    // private RDTContext _ctx = new RDTContext();
 
-    [HttpGet]
-    public async Task<IActionResult> Get()
-    {
-      var chars = _ctx.StarTreks.FirstOrDefault();
+    // [HttpGet]
+    // public async Task<IActionResult> GetArticles()
+    // {
+    //   // var articles = _ctx.Articles.FirstOrDefault();
 
-      return await Task.FromResult(Ok(chars.Characters));
+    //   // return await Task.FromResult(Ok(articles)
 
-    }
+    // }
   }
 }

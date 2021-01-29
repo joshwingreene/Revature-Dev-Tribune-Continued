@@ -1,10 +1,11 @@
+using StoreApi.Service.Models.Abstracts;
+using System.Collections.Generic;
+
 namespace StoreApi.Service.Models
 {
-  public class Character
+  public class Author : AUser
   {
-    public int EntityId { get; set; }
     public string Name { get; set; }
-    public StarTrek StarTrek { get; set; }
-    public int StarTrekEntityId { get; set; }
+    public List<Article> Articles { get; set; }
   }
 }
