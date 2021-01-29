@@ -23,7 +23,7 @@ namespace RepoApi.Service.Controllers
 
       if (response.IsSuccessStatusCode)
       {
-        var content = Json.Convert<StarTrekModel>(await response.Content.ReadAsStringAsync());
+        var content = JSon.Convert<StarTrekModel>(await response.Content.ReadAsStringAsync());
 
         return Ok(content);
       }
