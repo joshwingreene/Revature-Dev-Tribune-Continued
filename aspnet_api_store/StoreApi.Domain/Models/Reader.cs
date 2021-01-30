@@ -1,7 +1,7 @@
-using StoreApi.Service.Models.Abstracts;
+using StoreApi.Domain.Models.Abstracts;
 using System.Collections.Generic;
 
-namespace StoreApi.Service.Models
+namespace StoreApi.Domain.Models
 {
   public class Reader : AUser
   {

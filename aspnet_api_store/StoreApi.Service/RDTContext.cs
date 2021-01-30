@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using StoreApi.Service.Models;
+using StoreApi.Domain.Models;
 
 namespace StoreApi.Service
 {

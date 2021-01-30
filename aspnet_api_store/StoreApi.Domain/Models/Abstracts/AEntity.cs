@@ -1,4 +1,4 @@
-namespace StoreApi.Service.Models.Abstracts
+namespace StoreApi.Domain.Models.Abstracts
 {
   public abstract class AEntity
   {

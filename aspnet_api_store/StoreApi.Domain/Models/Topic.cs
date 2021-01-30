@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using StoreApi.Service.Models.Abstracts;
+using StoreApi.Domain.Models.Abstracts;
 
-namespace StoreApi.Service.Models
+namespace StoreApi.Domain.Models
 {
     public class Topic : AEntity
     {

@@ -11,13 +11,13 @@ namespace MvcApp.Client.Controllers
   [Route("[controller]")] // route parser
   public class AuthorController : Controller
   {
-    private string apiUrl = "https://localhost:8001/";
+    private string apiUrl = "https://localhost:5001/";
     private HttpClient _http = new HttpClient();
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-      var response = await _http.GetAsync(apiUrl + "Topic/GetCtxTopics");
+      var response = await _http.GetAsync(apiUrl + "Topic/topics");
 
       if (response.IsSuccessStatusCode) // IsSuccessStatusCode
       {
@@ -26,7 +26,7 @@ namespace MvcApp.Client.Controllers
         System.Console.WriteLine(jsonResponse);
         
         var ObjOrderList = JsonConvert.DeserializeObject<List<TopicViewModel>>(jsonResponse);
-        ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
+        //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
 
         return await Task.FromResult(View("home", ObjOrderList));
         // return View("home", ObjOrderList);

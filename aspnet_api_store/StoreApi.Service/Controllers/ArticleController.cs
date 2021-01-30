@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using StoreApi.Service.Models;
+using StoreApi.Domain.Models;
 
 namespace StoreApi.Service.Controllers
 {
@@ -15,13 +15,21 @@ namespace StoreApi.Service.Controllers
   {
     private RDTContext _ctx = new RDTContext();
 
-    [HttpGet("articles")]
-    public async Task<IActionResult> GetArticles()
-    {
-      var articles = _ctx.Articles;
+    // [HttpGet("articles")]
+    // public async Task<IActionResult> GetArticles()
+    // {
+    //   Article article = new Article();
+    //   article.Author = repo.getN
+    //   var articles = _ctx.Articles;
+    //   _ctx = repo.getAuthor(articleID)
+    //   Article art = new Article();
+    //   art.Author = articles
 
-      return await Task.FromResult(Ok(articles));
+    //   getAuthor(string)
+    //   -ctx.Author.FirstOrDefault(s => s.EntityId == String)
 
-    }
+    //   return await Task.FromResult(Ok(articles));
+
+    // }
   }
 }
