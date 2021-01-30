@@ -26,16 +26,13 @@ namespace StoreApi.Service.Migrations
                         .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<long?>("ArticleAuthorEntityId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("ArticleTopicEntityId")
+                    b.Property<long?>("AuthorEntityId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EditeddDate")
+                    b.Property<DateTime>("EditedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagePath")
@@ -50,11 +47,14 @@ namespace StoreApi.Service.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("TopicEntityId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("EntityId");
 
-                    b.HasIndex("ArticleAuthorEntityId");
+                    b.HasIndex("AuthorEntityId");
 
-                    b.HasIndex("ArticleTopicEntityId");
+                    b.HasIndex("TopicEntityId");
 
                     b.ToTable("Articles");
                 });
@@ -83,21 +83,21 @@ namespace StoreApi.Service.Migrations
                         new
                         {
                             EntityId = 1L,
-                            Email = "chedro.cardenas@yahoo.com",
+                            Email = "cc@aol.com",
                             Name = "Chedro Cardenas",
                             Password = "12345"
                         },
                         new
                         {
                             EntityId = 2L,
-                            Email = "elliott.lockwood@aol.com",
+                            Email = "el@aol.com",
                             Name = "Elliott Lockwood",
                             Password = "12345"
                         },
                         new
                         {
                             EntityId = 3L,
-                            Email = "joshwin.greene@gmail.com",
+                            Email = "jg@aol.com",
                             Name = "Joshwin Greene",
                             Password = "12345"
                         });
@@ -124,6 +124,28 @@ namespace StoreApi.Service.Migrations
                     b.ToTable("Readers");
                 });
 
+            modelBuilder.Entity("StoreApi.Service.Models.ReaderTopic", b =>
+                {
+                    b.Property<long>("EntityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .UseIdentityColumn();
+
+                    b.Property<long?>("ReaderEntityId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("TopicEntityId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("EntityId");
+
+                    b.HasIndex("ReaderEntityId");
+
+                    b.HasIndex("TopicEntityId");
+
+                    b.ToTable("ReaderTopics");
+                });
+
             modelBuilder.Entity("StoreApi.Service.Models.Topic", b =>
                 {
                     b.Property<long>("EntityId")
@@ -132,12 +154,7 @@ namespace StoreApi.Service.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ReaderEntityId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("EntityId");
-
-                    b.HasIndex("ReaderEntityId");
 
                     b.ToTable("Topics");
 
@@ -191,24 +208,32 @@ namespace StoreApi.Service.Migrations
 
             modelBuilder.Entity("StoreApi.Service.Models.Article", b =>
                 {
-                    b.HasOne("StoreApi.Service.Models.Author", "ArticleAuthor")
+                    b.HasOne("StoreApi.Service.Models.Author", "Author")
                         .WithMany("Articles")
-                        .HasForeignKey("ArticleAuthorEntityId");
+                        .HasForeignKey("AuthorEntityId");
 
-                    b.HasOne("StoreApi.Service.Models.Topic", "ArticleTopic")
+                    b.HasOne("StoreApi.Service.Models.Topic", "Topic")
                         .WithMany()
-                        .HasForeignKey("ArticleTopicEntityId");
+                        .HasForeignKey("TopicEntityId");
 
-                    b.Navigation("ArticleAuthor");
+                    b.Navigation("Author");
 
-                    b.Navigation("ArticleTopic");
+                    b.Navigation("Topic");
                 });
 
-            modelBuilder.Entity("StoreApi.Service.Models.Topic", b =>
+            modelBuilder.Entity("StoreApi.Service.Models.ReaderTopic", b =>
                 {
-                    b.HasOne("StoreApi.Service.Models.Reader", null)
-                        .WithMany("PreferredTopics")
+                    b.HasOne("StoreApi.Service.Models.Reader", "Reader")
+                        .WithMany("ReaderTopics")
                         .HasForeignKey("ReaderEntityId");
+
+                    b.HasOne("StoreApi.Service.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicEntityId");
+
+                    b.Navigation("Reader");
+
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("StoreApi.Service.Models.Author", b =>
@@ -218,7 +243,7 @@ namespace StoreApi.Service.Migrations
 
             modelBuilder.Entity("StoreApi.Service.Models.Reader", b =>
                 {
-                    b.Navigation("PreferredTopics");
+                    b.Navigation("ReaderTopics");
                 });
 #pragma warning restore 612, 618
         }

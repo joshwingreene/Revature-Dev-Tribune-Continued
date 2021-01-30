@@ -9,9 +9,9 @@ namespace StoreApi.Service.Models
         public string Body { get; set; }
         public string ImagePath { get; set; }
         public bool IsPublished { get; set; }
-        public Author ArticleAuthor { get; set; }
-        public Topic ArticleTopic { get; set; }
+        public Author Author { get; set; }
+        public Topic Topic { get; set; }
         public DateTime PublishedDate { get; set; }
-        public DateTime EditeddDate { get; set; }
+        public DateTime EditedDate { get; set; }
     }
 }

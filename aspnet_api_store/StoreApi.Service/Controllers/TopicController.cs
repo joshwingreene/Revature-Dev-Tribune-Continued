@@ -11,17 +11,31 @@ namespace StoreApi.Service.Controllers
 {
   [ApiController]
   [Route("[controller]")]
-  public class ArticleController : ControllerBase
+  public class TopicController : ControllerBase
   {
     private RDTContext _ctx = new RDTContext();
 
-    [HttpGet("articles")]
-    public async Task<IActionResult> GetArticles()
+    [HttpGet("topics")]
+    public async Task<IActionResult> GetTopics()
     {
-      var articles = _ctx.Articles;
+      var Topics = _ctx.Topics;
 
-      return await Task.FromResult(Ok(articles));
-
+      return await Task.FromResult(Ok(Topics));
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,6 +7,6 @@ namespace StoreApi.Service.Models
   {
     public string Username { get; set; }
     // If we have time, we can use in the client and repo
-    public List<Topic> PreferredTopics { get; set; } 
+    public List<ReaderTopic> ReaderTopics { get; set; } 
   }
 }

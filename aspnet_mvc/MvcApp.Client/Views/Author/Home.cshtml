@@ -1,10 +1,13 @@
-@model MvcApp.Client.Models.HomeViewModel
+@model List<MvcApp.Client.Models.Author.TopicViewModel>
 
 @{
+ <h1> HELLO</h1>
   <ul>
-    foreach (var item in Model.Characters)
+    @for(var i = 0; i < @Model.Count; i++ )
     {
-    <li>@item</li>
+    <li>@Model[i].Name</li>
+    <br>
+    <hr>
     }
   </ul>
 }

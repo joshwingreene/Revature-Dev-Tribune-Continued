@@ -42,18 +42,11 @@ namespace StoreApi.Service.Migrations
                 columns: table => new
                 {
                     EntityId = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReaderEntityId = table.Column<long>(type: "bigint", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Topics", x => x.EntityId);
-                    table.ForeignKey(
-                        name: "FK_Topics_Readers_ReaderEntityId",
-                        column: x => x.ReaderEntityId,
-                        principalTable: "Readers",
-                        principalColumn: "EntityId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,23 +59,49 @@ namespace StoreApi.Service.Migrations
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    ArticleAuthorEntityId = table.Column<long>(type: "bigint", nullable: true),
-                    ArticleTopicEntityId = table.Column<long>(type: "bigint", nullable: true),
+                    AuthorEntityId = table.Column<long>(type: "bigint", nullable: true),
+                    TopicEntityId = table.Column<long>(type: "bigint", nullable: true),
                     PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EditeddDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EditedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Articles", x => x.EntityId);
                     table.ForeignKey(
-                        name: "FK_Articles_Authors_ArticleAuthorEntityId",
-                        column: x => x.ArticleAuthorEntityId,
+                        name: "FK_Articles_Authors_AuthorEntityId",
+                        column: x => x.AuthorEntityId,
                         principalTable: "Authors",
                         principalColumn: "EntityId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Articles_Topics_ArticleTopicEntityId",
-                        column: x => x.ArticleTopicEntityId,
+                        name: "FK_Articles_Topics_TopicEntityId",
+                        column: x => x.TopicEntityId,
+                        principalTable: "Topics",
+                        principalColumn: "EntityId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReaderTopics",
+                columns: table => new
+                {
+                    EntityId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReaderEntityId = table.Column<long>(type: "bigint", nullable: true),
+                    TopicEntityId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReaderTopics", x => x.EntityId);
+                    table.ForeignKey(
+                        name: "FK_ReaderTopics_Readers_ReaderEntityId",
+                        column: x => x.ReaderEntityId,
+                        principalTable: "Readers",
+                        principalColumn: "EntityId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ReaderTopics_Topics_TopicEntityId",
+                        column: x => x.TopicEntityId,
                         principalTable: "Topics",
                         principalColumn: "EntityId",
                         onDelete: ReferentialAction.Restrict);
@@ -93,41 +112,46 @@ namespace StoreApi.Service.Migrations
                 columns: new[] { "EntityId", "Email", "Name", "Password" },
                 values: new object[,]
                 {
-                    { 1L, "chedro.cardenas@yahoo.com", "Chedro Cardenas", "12345" },
-                    { 2L, "elliott.lockwood@aol.com", "Elliott Lockwood", "12345" },
-                    { 3L, "joshwin.greene@gmail.com", "Joshwin Greene", "12345" }
+                    { 1L, "cc@aol.com", "Chedro Cardenas", "12345" },
+                    { 2L, "el@aol.com", "Elliott Lockwood", "12345" },
+                    { 3L, "jg@aol.com", "Joshwin Greene", "12345" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Topics",
-                columns: new[] { "EntityId", "Name", "ReaderEntityId" },
+                columns: new[] { "EntityId", "Name" },
                 values: new object[,]
                 {
-                    { 1L, "Startups", null },
-                    { 2L, "DevOps", null },
-                    { 3L, "Testing", null },
-                    { 4L, "Big Data", null },
-                    { 5L, "Machine Learning", null },
-                    { 6L, "FAANG", null },
-                    { 7L, "Languages", null },
-                    { 8L, "Hacker News", null },
-                    { 9L, "Databases", null }
+                    { 1L, "Startups" },
+                    { 2L, "DevOps" },
+                    { 3L, "Testing" },
+                    { 4L, "Big Data" },
+                    { 5L, "Machine Learning" },
+                    { 6L, "FAANG" },
+                    { 7L, "Languages" },
+                    { 8L, "Hacker News" },
+                    { 9L, "Databases" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_ArticleAuthorEntityId",
+                name: "IX_Articles_AuthorEntityId",
                 table: "Articles",
-                column: "ArticleAuthorEntityId");
+                column: "AuthorEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_ArticleTopicEntityId",
+                name: "IX_Articles_TopicEntityId",
                 table: "Articles",
-                column: "ArticleTopicEntityId");
+                column: "TopicEntityId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topics_ReaderEntityId",
-                table: "Topics",
+                name: "IX_ReaderTopics_ReaderEntityId",
+                table: "ReaderTopics",
                 column: "ReaderEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReaderTopics_TopicEntityId",
+                table: "ReaderTopics",
+                column: "TopicEntityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -136,13 +160,16 @@ namespace StoreApi.Service.Migrations
                 name: "Articles");
 
             migrationBuilder.DropTable(
+                name: "ReaderTopics");
+
+            migrationBuilder.DropTable(
                 name: "Authors");
 
             migrationBuilder.DropTable(
-                name: "Topics");
+                name: "Readers");
 
             migrationBuilder.DropTable(
-                name: "Readers");
+                name: "Topics");
         }
     }
 }

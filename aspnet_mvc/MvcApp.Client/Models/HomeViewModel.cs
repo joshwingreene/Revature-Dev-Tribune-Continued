@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MvcApp.Client.Models
 {
   public class HomeViewModel
