@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace MvcApp.Client.Controllers
 {
   [Route("[controller]")] // route parser
-  public class AuthorController : Controller
+  public class AuthorController : Controller // test change
   {
     private string apiUrl = "https://localhost:5001/";
     private HttpClient _http = new HttpClient();
