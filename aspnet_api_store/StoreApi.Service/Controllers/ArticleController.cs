@@ -13,23 +13,18 @@ namespace StoreApi.Service.Controllers
   [Route("[controller]")]
   public class ArticleController : ControllerBase
   {
-    private RDTContext _ctx = new RDTContext();
+    private readonly RDTRepo _repo; 
 
-    // [HttpGet("articles")]
-    // public async Task<IActionResult> GetArticles()
-    // {
-    //   Article article = new Article();
-    //   article.Author = repo.getN
-    //   var articles = _ctx.Articles;
-    //   _ctx = repo.getAuthor(articleID)
-    //   Article art = new Article();
-    //   art.Author = articles
+    public ArticleController(RDTRepo repository)
+    {
+      _repo = repository;
+    }
 
-    //   getAuthor(string)
-    //   -ctx.Author.FirstOrDefault(s => s.EntityId == String)
-
-    //   return await Task.FromResult(Ok(articles));
-
-    // }
+    [HttpGet("articles")]
+    public async Task<IActionResult> GetArticle()
+    {
+      var Article = _repo.GetArticles();
+      return await Task.FromResult(Ok(Article));
+    }
   }
 }
