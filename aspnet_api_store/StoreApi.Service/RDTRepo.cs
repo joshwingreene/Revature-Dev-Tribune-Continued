@@ -43,6 +43,17 @@ namespace StoreApi.Service
             _ctx.SaveChanges();
         }
 
+        public void UpdateArticle(Article article)
+        {
+          _ctx.Articles.Update(article);
+          _ctx.SaveChanges();
+        }
+
+
+
+
+
+
 
 
 
