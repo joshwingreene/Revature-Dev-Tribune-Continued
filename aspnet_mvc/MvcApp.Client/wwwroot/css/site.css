@@ -77,6 +77,11 @@ body {
   flex-direction: column;
   justify-items: space-around;
   align-content: flex-start;
+  text-align:center;
+}
+
+.container-form-center h1 {
+  text-align:center;
 }
 
 .content-form{
