@@ -1,9 +1,25 @@
 @model MvcApp.Client.Models.Reader.ReaderViewModel;
+<div class="container-form-center">
+  <h1>Thank you for sign up</h1>
+  <p>Please fill out the form:</p>
+  <form class="form content-form" asp-action="confirm" asp-controller="reader" method="POST">
+    <div class="from-group col-md-6">
+      <div class="form-group">
+        <label for="username">User Name:</label>
+        <input class="form-control" type="text" id="username" placeholder="Enter username" asp-for="@Model.Username" value="" required/>
+      </div>
+      <div class="form-group">
+          <label for="email">Email address:</label>
+        <input class="form-control" type="email" id="email" placeholder="Enter email" asp-for="@Model.Email" value="" required/>
+      </div>
+      <div class="form-group ">
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" id="password" placeholder="Enter password" asp-for="@Model.Password" value="" required/>
+      </div>
+      <div class="form-group">
+       <button type="submit" class="btn btn-dark btn-lg">Sign Up</button>
+    </div>
+    </div>
 
-<h1>HELLO NEW USER</h1>
-<form asp-action="confirm" asp-controller="reader" method="POST">
-  <input type="text" placeholder="Enter username" asp-for="@Model.Username" value="" required/>
-  <input type="text" placeholder="Enter email" asp-for="@Model.Email" value="" required/>
-  <input type="password" placeholder="Enter password" asp-for="@Model.Password" value="" required/>
-  <button type="submit" class="btn btn-primary">Sign Up</button>
-</form>
+  </form>
+</div>
