@@ -27,9 +27,9 @@ namespace StoreApi.Service
             return _ctx.Articles.Where(a => a.Title == title);
         }
 
-        public IEnumerable<Article>  GetArticles()
+        public IEnumerable<Article> GetArticles()
         {
-            return _ctx.Articles;
+            return _ctx.Articles.Include(a=>a.Topic).Include(a => a.Author);
         }
 
         public IEnumerable<Article> GetArticlesByGivenEmail()

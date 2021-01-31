@@ -13,7 +13,7 @@ namespace StoreApi.Service.Controllers
   [Route("[controller]")]
   public class ArticleController : ControllerBase
   {
-    private readonly RDTRepo _repo; 
+    private readonly RDTRepo _repo;
 
     public ArticleController(RDTRepo repository)
     {
@@ -24,6 +24,7 @@ namespace StoreApi.Service.Controllers
     public async Task<IActionResult> GetArticle()
     {
       var Article = _repo.GetArticles();
+      System.Console.WriteLine(Article);
       return await Task.FromResult(Ok(Article));
     }
   }
