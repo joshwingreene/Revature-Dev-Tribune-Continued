@@ -1,0 +1,29 @@
+@model List<MvcApp.Client.Models.Reader.ArticleViewModel>
+
+<div class ='conatiner-fluid'>
+    @* This is the Article Section LIST where will be displaying Articles *@
+
+    @for (int i = 0; i < @Model.Count; i++)
+    {
+        <div class="row " id="section-Article">
+            
+            <div class="col-sm" id="col-div-right">
+                <figure>
+                    <img class="figure-img img-fluid" src="http://placekitten.com/300/600" alt="Article Image" style="width:400px;height:300px" >
+                </figure>
+            </div>
+
+            <div class="col-sm" id="col-div-right">
+                <header>
+                    <h2>@Model.Last().Title</h2>
+                    <h3>@Model.Last().Topic</h3>
+                </header>
+                <body>
+                    <p>@Model.Last().Body</p>
+                </body>
+                <small>@Model.Last().Author</small>
+                <a href="#">Load More..</a>
+            </div>
+        </div>
+    }
+</div>
