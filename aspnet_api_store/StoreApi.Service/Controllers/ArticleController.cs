@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using StoreApi.Domain.Models;
 
 namespace StoreApi.Service.Controllers
@@ -27,5 +28,20 @@ namespace StoreApi.Service.Controllers
       System.Console.WriteLine(Article);
       return await Task.FromResult(Ok(Article));
     }
+    [HttpPost("create_article")]
+    public async Task<IActionResult> CreateArticle(Article article)
+    {
+      _repo.CreateArticle(article);
+      return await Task.FromResult(Ok());
+    }
+    [HttpPut("update_article")]
+    public async Task<IActionResult> UpdateArticle(Article article)
+    {
+      _repo.UpdateArticle(article);
+      return await Task.FromResult(Ok());
+    }
+
+
+
   }
 }
