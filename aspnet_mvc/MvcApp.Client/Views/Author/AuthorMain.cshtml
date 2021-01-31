@@ -1,0 +1,21 @@
+
+<div style="display: flex; flex-direction: column; justify-content: center">
+    <form action="" style="width: 100%">
+        <input style="width: 100%" type="text" name="search" id="search">
+    </form>
+    <ul id="article_list">
+        @for(var i = 0; i < @Model.Count; i++)
+        {
+            <li>
+                <p>@Model[i].Title</p>
+                <p>@(Model[i].isPublished ? "Published" : "Not Published")</p>
+                <form asp-action="view_article" asp-controller="author" method="GET">
+                    <button type="submit">Edit</button>
+                </form>
+                <form asp-action="delete" asp-controller="author" method="POST">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        }
+    </ul>
+</div>

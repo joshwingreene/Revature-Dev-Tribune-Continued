@@ -1,13 +1,7 @@
-@model List<MvcApp.Client.Models.Author.TopicViewModel>
 
 @{
- <h1> HELLO</h1>
-  <ul>
-    @for(var i = 0; i < @Model.Count; i++ )
-    {
-    <li>@Model[i].Name</li>
-    <br>
-    <hr>
-    }
-  </ul>
+  //ViewBag.Title = "Author - Home";
+  //Layout = "_LayoutAuthor";
 }
+
+@Html.Partial("Login")
