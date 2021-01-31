@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json.Serialization;
 using StoreApi.Domain.Models.Abstracts;
 
 namespace StoreApi.Domain.Models
