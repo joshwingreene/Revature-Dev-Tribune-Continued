@@ -3,22 +3,22 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using MvcApp.Client.Models.Author;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using MvcApp.Client.Models.Shared;
 
 namespace MvcApp.Client.Controllers
 {
   [Route("[controller]")] // route parser
-  public class AuthorController : Controller
+  public class AuthorController : Controller // test change
   {
     private string apiUrl = "https://localhost:5001/";
     private HttpClient _http;
 
     public AuthorController(){
-        HttpClientHandler clientHandler = new HttpClientHandler();
-        clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-        _http = new HttpClient(clientHandler);
+
+      HttpClientHandler clientHandler = new HttpClientHandler();
+      clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+      _http = new HttpClient(clientHandler);
     }
 
 
@@ -41,14 +41,14 @@ namespace MvcApp.Client.Controllers
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
         System.Console.WriteLine(jsonResponse);
-        
+
         var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
         //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
 
         return await Task.FromResult(View("AuthorMain", ObjOrderList));
 
         /*
-        return View("AuthorMain", new List<ArticleViewModel> { 
+        return View("AuthorMain", new List<ArticleViewModel> {
           new ArticleViewModel("First", false),
           new ArticleViewModel("Second", false),
           new ArticleViewModel("Third", true),
@@ -70,20 +70,14 @@ namespace MvcApp.Client.Controllers
     {
       var response = await _http.GetAsync(apiUrl + "Topic/topics");
 
-      if (response.IsSuccessStatusCode) // IsSuccessStatusCode
+      if (response.IsSuccessStatusCode)
       {
-        //var content = Json.Convert<TopicViewModel>(await response.Content.ReadStringAsync());
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        System.Console.WriteLine(jsonResponse);
-        
-        var ObjOrderList = JsonConvert.DeserializeObject<List<TopicViewModel>>(jsonResponse);
-        //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
+        // System.Console.WriteLine(jsonResponse);
 
-        return await Task.FromResult(View("TopicList", ObjOrderList));
-        // return View("home", ObjOrderList);
+        var ObjOrderList = JsonConvert.DeserializeObject<List<TopicViewModel>>(jsonResponse);
+        return await Task.FromResult(View("home", ObjOrderList));
       }
-      // return Task.FromResult(View("Error"));
-      // asdasd
       return View("Error");
     }
   }

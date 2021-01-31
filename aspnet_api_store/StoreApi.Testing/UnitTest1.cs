@@ -10,5 +10,6 @@ namespace StoreApi.Testing
         {
 
         }
+        public int MyProperty { get; set; }
     }
 }

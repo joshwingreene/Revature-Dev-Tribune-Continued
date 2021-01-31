@@ -1,4 +1,4 @@
-using StoreApi.Domain.Models; 
+using StoreApi.Domain.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace StoreApi.Service
 {
-    public class RDTRepo 
+    public class RDTRepo
     {
         private RDTContext _ctx;
         //Constructor
@@ -24,12 +24,12 @@ namespace StoreApi.Service
 
         public IEnumerable<Article> GetArticlesByGivenTitle(string title)
         {
-            return _ctx.Articles.Where(a => a.Title == title); 
+            return _ctx.Articles.Where(a => a.Title == title);
         }
 
         public IEnumerable<Article>  GetArticles()
         {
-            return _ctx.Articles; 
+            return _ctx.Articles;
         }
 
         public IEnumerable<Article> GetArticlesByGivenEmail()
@@ -39,7 +39,7 @@ namespace StoreApi.Service
 
         public void CreateArticle(Article article)
         {
-            _ctx.Articles.Add(article); 
+            _ctx.Articles.Add(article);
             _ctx.SaveChanges();
         }
 
@@ -47,8 +47,8 @@ namespace StoreApi.Service
 
 
 
-        
 
-    
+
+
     }
 }

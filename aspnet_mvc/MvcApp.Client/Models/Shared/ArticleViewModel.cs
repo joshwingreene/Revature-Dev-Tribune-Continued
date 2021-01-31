@@ -1,17 +1,12 @@
-namespace MvcApp.Client.Models.Author
+namespace MvcApp.Client.Models.Shared
 {
     public class ArticleViewModel
     {
         public string Title { get; set; }
+        public string Body { get; set; }
+        public string Author { get; set; }
+        public string ImagePath { get; set; }
+        public string Topic { get; set; }
 
-        public bool isPublished { get; set; }
-
-        public ArticleViewModel(string title, bool publishedStatus)
-        {
-            Title = title;
-            isPublished = publishedStatus;
-        }
-
-        // more to come
     }
 }
