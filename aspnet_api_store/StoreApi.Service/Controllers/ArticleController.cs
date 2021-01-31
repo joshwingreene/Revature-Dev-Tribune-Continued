@@ -41,7 +41,12 @@ namespace StoreApi.Service.Controllers
       return await Task.FromResult(Ok());
     }
 
-
+    [HttpDelete("delete_article")]
+    public async Task<IActionResult> DeleteArticle(Article article)
+    {
+      _repo.DeleteArticle(article);
+      return await Task.FromResult(Ok());
+    }
 
   }
 }
