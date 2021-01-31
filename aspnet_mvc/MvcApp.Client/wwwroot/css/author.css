@@ -20,3 +20,33 @@
 #article_list li p {
     display: inline;
 }
+
+#article_creator_form {
+    display: flex !important;
+    flex-direction: column;
+}
+
+#article_creator_form header {
+    display: flex;
+    flex-direction: column;
+}
+
+#article_creator_form header input {
+    display: block;
+}
+
+#article_creator_form main {
+    display: flex;
+    width: '100%';
+}
+
+#article_creator_form footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#article_creator_form button {
+    display: inline;
+    width: '20%';
+}

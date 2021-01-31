@@ -40,7 +40,7 @@ namespace MvcApp.Client.Controllers
         var response = await _http.GetAsync(apiUrl + "Article/articles");
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        System.Console.WriteLine(jsonResponse);
+        //System.Console.WriteLine(jsonResponse);
 
         var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
         //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
@@ -58,6 +58,24 @@ namespace MvcApp.Client.Controllers
         });
         */
     }
+
+    /*
+    [HttpGet("show_article_creator")]
+    public async Task<IActionResult> ShowArticleCreator()
+    {
+      // Get the topics
+      var response = await _http.GetAsync(apiUrl + "Topic/topics");
+
+      if (response.IsSuccessStatusCode)
+      {
+        var JsonResponse = await response.Content.ReadAsStringAsync();
+
+        var TopicViewModels = JsonConvert.DeserializeObject<List<TopicViewModel>>(JsonResponse);
+        return await Task.FromResult(View("ArticleCreator", TopicViewModels));
+      }
+      return View("Error");
+    }
+    */
 
     [HttpGet("view_article")]
     public IActionResult ViewArticle()

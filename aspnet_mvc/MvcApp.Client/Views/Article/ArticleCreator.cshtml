@@ -1,0 +1,17 @@
+<form asp-action="create_article" asp-controller="article" method="POST" id="article_creator_form">
+    <header>
+        <input type="text" name="title" id="title">
+        <select name="topic" id="topic">
+            @for(var i = 0; i < @Model.Count; i++)
+            {
+                <option>@Model[i].Name</option>
+            }
+        </select>
+    </header>
+    <main>
+        <textarea class="container-fluid" name="body" id="body" cols="30" rows="10"></textarea>
+    </main>
+    <footer>
+        <button type="submit">Save Article</button>
+    </footer>
+</form>
