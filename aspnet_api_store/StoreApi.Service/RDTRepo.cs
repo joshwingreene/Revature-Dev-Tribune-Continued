@@ -67,9 +67,23 @@ namespace StoreApi.Service
           return _ctx.Articles.Where(a => a.Topic.Name == topic.Name).Include(a=>a.Topic).Include(a => a.Author);
         }
 
+        public IEnumerable<Reader> GetReaders()
+        {
+          return _ctx.Readers;
+        }
 
+        public void GetAuthorIfValidCredential()
+        {
 
+        }
 
+        public bool CheckIfReaderExists(Reader reader)
+        {
+          var EmailExists = _ctx.Readers.FirstOrDefault(a => a.Email == reader.Email);
+          var UserExists = _ctx.Readers.FirstOrDefault(a => a.Username == reader.Username);
+          return EmailExists != null || UserExists != null? true : false;
+
+        }
 
 
 
