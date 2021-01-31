@@ -13,7 +13,14 @@ namespace MvcApp.Client.Controllers
   public class AuthorController : Controller
   {
     private string apiUrl = "https://localhost:5001/";
-    private HttpClient _http = new HttpClient();
+    private HttpClient _http;
+
+    public AuthorController(){
+        HttpClientHandler clientHandler = new HttpClientHandler();
+        clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+        _http = new HttpClient(clientHandler);
+    }
+
 
     [HttpGet]
     public IActionResult Home()
@@ -23,13 +30,24 @@ namespace MvcApp.Client.Controllers
     }
 
     [HttpPost("login")]
-    public IActionResult Login(AuthorViewModel authorViewModel)
+    public async Task<IActionResult> Login(AuthorViewModel authorViewModel)
     {
         System.Console.WriteLine("Login");
 
         System.Console.WriteLine("Email: " + authorViewModel.Email);
         System.Console.WriteLine("Password: " + authorViewModel.Password);
 
+        var response = await _http.GetAsync(apiUrl + "Article/articles");
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        System.Console.WriteLine(jsonResponse);
+        
+        var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+        //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
+
+        return await Task.FromResult(View("AuthorMain", ObjOrderList));
+
+        /*
         return View("AuthorMain", new List<ArticleViewModel> { 
           new ArticleViewModel("First", false),
           new ArticleViewModel("Second", false),
@@ -38,6 +56,7 @@ namespace MvcApp.Client.Controllers
           new ArticleViewModel("Five", true),
           new ArticleViewModel("Six", true),
         });
+        */
     }
 
     [HttpGet("view_article")]
