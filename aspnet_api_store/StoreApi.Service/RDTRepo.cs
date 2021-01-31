@@ -49,7 +49,11 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
-
+        public void CreateReader(Reader reader)
+        {
+          _ctx.Readers.Add(reader);
+          _ctx.SaveChanges();
+        }
 
 
 

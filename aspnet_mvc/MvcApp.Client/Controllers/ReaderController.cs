@@ -1,11 +1,14 @@
 
 using Microsoft.AspNetCore.Mvc;
 using MvcApp.Client.Models.Author;
+using MvcApp.Client.Models.Reader;
 using MvcApp.Client.Models.Shared;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 
@@ -47,6 +50,23 @@ namespace MvcApp.Client.Controllers
         public ActionResult SignUp()
         {
           return View("signup");
+        }
+
+        [HttpPost("confirm")]
+        public IActionResult Confirm(ReaderViewModel model)
+        {
+          _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
+          var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
+          postTask.Wait();
+
+          var result = postTask.Result;
+          if(result.IsSuccessStatusCode)
+          {
+             return Content("Success");
+          }
+          ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+
+        return View("signup");
         }
     }
 }
