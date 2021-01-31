@@ -1,0 +1,7 @@
+@model MvcApp.Client.Models.Author.AuthorViewModel
+
+<form asp-action="login" asp-controller="author" method="POST">
+    <input type="text" placeholder="Enter email" asp-for="@Model.Email" value="" required/>
+    <input type="password" placeholder="Enter password" asp-for="@Model.Password" value="" required/>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
