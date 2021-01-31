@@ -11,7 +11,7 @@ namespace StoreApi.Service
     public DbSet<Reader> Readers { get; set; }
     public DbSet<Topic> Topics { get; set; }
     public DbSet<ReaderTopic> ReaderTopics { get; set; }
-    // public RDTContext(DbContextOptions<RDTContext> options) : base(options) { }
+    public RDTContext(DbContextOptions<RDTContext> options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
       builder.UseSqlServer("Server=x54server.database.windows.net; Initial Catalog=RDTdb;User Id=sqladmin;Password=123QWEasd");
