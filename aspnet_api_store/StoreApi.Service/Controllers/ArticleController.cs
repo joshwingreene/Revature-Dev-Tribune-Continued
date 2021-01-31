@@ -48,5 +48,13 @@ namespace StoreApi.Service.Controllers
       return await Task.FromResult(Ok());
     }
 
+    [HttpGet("GetArticleTopic")]
+    public async Task<IActionResult> GetArticlesByTopic(Topic topic)
+    {
+      var article = _repo.GetArticlesByTopic(topic);
+      System.Console.WriteLine("Please Select a Topic");
+      return await Task.FromResult(Ok(article));
+    }
+
   }
 }

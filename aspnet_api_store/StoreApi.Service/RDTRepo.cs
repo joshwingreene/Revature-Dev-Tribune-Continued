@@ -49,17 +49,30 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
+        public void DeleteArticle(Article article)
+        {
+          _ctx.Articles.Remove(article);
+          _ctx.SaveChanges();
+        }
+
+        // reader endpoints
         public void CreateReader(Reader reader)
         {
           _ctx.Readers.Add(reader);
           _ctx.SaveChanges();
         }
 
-        public void DeleteArticle(Article article)
+        public IEnumerable<Article> GetArticlesByTopic(Topic topic)
         {
-          _ctx.Articles.Remove(article);
-          _ctx.SaveChanges();
+          return _ctx.Articles.Where(a => a.Topic.Name == topic.Name).Include(a=>a.Topic).Include(a => a.Author);
         }
+
+
+
+
+
+
+
 
 
 
