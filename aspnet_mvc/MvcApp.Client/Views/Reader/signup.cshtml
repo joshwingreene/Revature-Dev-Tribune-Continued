@@ -1,1 +1,9 @@
+@model MvcApp.Client.Models.Reader.ReaderViewModel;
+
 <h1>HELLO NEW USER</h1>
+<form asp-action="confirm" asp-controller="reader" method="POST">
+  <input type="text" placeholder="Enter username" asp-for="@Model.Username" value="" required/>
+  <input type="text" placeholder="Enter email" asp-for="@Model.Email" value="" required/>
+  <input type="password" placeholder="Enter password" asp-for="@Model.Password" value="" required/>
+  <button type="submit" class="btn btn-primary">Sign Up</button>
+</form>
