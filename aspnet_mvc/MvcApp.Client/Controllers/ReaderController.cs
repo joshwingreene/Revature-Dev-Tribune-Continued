@@ -14,21 +14,21 @@ using System.Threading.Tasks;
 
 namespace MvcApp.Client.Controllers
 {
-     [Route("[controller]")]
-    public class ReaderController:Controller
-    {
-        private string apiUrl = "https://localhost:5001/";
-        private HttpClient _http;
+  [Route("[controller]")]
+  public class ReaderController:Controller
+  {
+    private string apiUrl = "https://localhost:5001/";
+    private HttpClient _http;
 
-        public ReaderController(){
+    public ReaderController(){
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _http = new HttpClient(clientHandler);
         }
 
 
-        [HttpGet]
-        public async Task<ActionResult> Get()
+    [HttpGet]
+    public async Task<ActionResult> Get()
         {
             var article = new List<ArticleViewModel>(){};
             var response = await _http.GetAsync(apiUrl + "article/articles");
@@ -46,27 +46,27 @@ namespace MvcApp.Client.Controllers
             return View("error");
         }
 
-        [HttpGet("signup")]
-        public ActionResult SignUp()
+    [HttpGet("signup")]
+    public ActionResult SignUp()
         {
           return View("signup");
         }
 
-        [HttpPost("confirm")]
-        public IActionResult Confirm(ReaderViewModel model)
+    [HttpPost("confirm")]
+    public IActionResult Confirm(ReaderViewModel model)
         {
           _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
           var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
           postTask.Wait();
-
           var result = postTask.Result;
+
+          ViewBag.message = result.StatusCode;
           if(result.IsSuccessStatusCode)
           {
-             return Content("Success");
+             return RedirectToAction("get");
           }
           ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-
-        return View("signup");
+          return View("signup");
         }
-    }
+  }
 }
