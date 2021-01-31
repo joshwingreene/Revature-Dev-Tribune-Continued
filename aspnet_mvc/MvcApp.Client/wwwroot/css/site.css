@@ -69,3 +69,22 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.container-form-center{
+
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  justify-items: space-around;
+  align-content: flex-start;
+}
+
+.content-form{
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding-top: 1%;
+
+}
