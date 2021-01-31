@@ -55,6 +55,14 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
+        public void DeleteArticle(Article article)
+        {
+          _ctx.Articles.Remove(article);
+          _ctx.SaveChanges();
+        }
+
+
+
 
 
 
