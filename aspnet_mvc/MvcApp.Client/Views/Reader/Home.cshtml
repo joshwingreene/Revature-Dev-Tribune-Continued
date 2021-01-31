@@ -16,12 +16,12 @@
             <div class="col-sm" id="col-div-right">
                 <header>
                     <h2>@Model[i].Title</h2>
-                    <h3>@Model[i].Topic</h3>
+                    <h3>@Model[i].Topic.Name</h3>
                 </header>
                 <body>
                     <p>@Model[i].Body</p>
                 </body>
-                <small>@Model[i].Author</small>
+                <small>@Model[i].Author.Name</small>
                 <a href="#">Load More..</a>
             </div>
         </div>
