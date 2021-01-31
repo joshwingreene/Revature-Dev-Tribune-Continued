@@ -1,4 +1,15 @@
-
-@{
-    Layout = "_LayoutAuthor";
+@{ 
+    string CurrentControllerName = ViewContext.RouteData.Values["Controller"].ToString(); 
+    switch (CurrentControllerName) 
+    { 
+        case "Author":
+            Layout = "~/Views/Shared/_LayoutAuthor.cshtml"; 
+            break; 
+        case "Reader":
+            Layout = "~/Views/Shared/_LayoutReader.cshtml"; 
+            break; 
+        default:
+            Layout = "~/Views/Shared/_LayoutReader.cshtml"; 
+            break; 
+    } 
 }
