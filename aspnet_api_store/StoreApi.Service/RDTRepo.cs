@@ -61,8 +61,10 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
-
-
+        public IEnumerable<Author> GetAuthors()
+        {
+            return _ctx.Authors;
+        }
 
 
 

@@ -46,36 +46,7 @@ namespace MvcApp.Client.Controllers
         //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
 
         return await Task.FromResult(View("AuthorMain", ObjOrderList));
-
-        /*
-        return View("AuthorMain", new List<ArticleViewModel> {
-          new ArticleViewModel("First", false),
-          new ArticleViewModel("Second", false),
-          new ArticleViewModel("Third", true),
-          new ArticleViewModel("Four", true),
-          new ArticleViewModel("Five", true),
-          new ArticleViewModel("Six", true),
-        });
-        */
     }
-
-    /*
-    [HttpGet("show_article_creator")]
-    public async Task<IActionResult> ShowArticleCreator()
-    {
-      // Get the topics
-      var response = await _http.GetAsync(apiUrl + "Topic/topics");
-
-      if (response.IsSuccessStatusCode)
-      {
-        var JsonResponse = await response.Content.ReadAsStringAsync();
-
-        var TopicViewModels = JsonConvert.DeserializeObject<List<TopicViewModel>>(JsonResponse);
-        return await Task.FromResult(View("ArticleCreator", TopicViewModels));
-      }
-      return View("Error");
-    }
-    */
 
     [HttpGet("view_article")]
     public IActionResult ViewArticle()

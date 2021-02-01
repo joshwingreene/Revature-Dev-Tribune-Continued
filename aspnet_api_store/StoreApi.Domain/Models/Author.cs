@@ -7,7 +7,7 @@ namespace StoreApi.Domain.Models
   public class Author : AUser
   {
     public string Name { get; set; }
-    // [JsonIgnore]
-    // public List<Article> Articles { get; set; }
+    //[JsonIgnore]
+    //public List<Article> Articles { get; set; }
   }
 }
