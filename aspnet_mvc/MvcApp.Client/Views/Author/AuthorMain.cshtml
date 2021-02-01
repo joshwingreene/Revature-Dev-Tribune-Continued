@@ -1,6 +1,9 @@
 
 <div style="display: flex; flex-direction: column; justify-content: center">
-    <form action="" style="width: 100%">
+    <form asp-action="show_article_creator" asp-controller="article" method="GET" style="margin-bottom: 10px; display: flex; width: 100%; justify-content: flex-end">
+        <button type="submit">New Article</button>
+    </form>
+    <form action="" style="width: 100%; margin-bottom: 10px;">
         <input style="width: 100%" type="text" name="search" id="search">
     </form>
     <ul id="article_list">

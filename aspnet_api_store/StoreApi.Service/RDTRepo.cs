@@ -104,6 +104,10 @@ namespace StoreApi.Service
           return isPasswordOk;
         }
 
+        public IEnumerable<Author> GetAuthors()
+        {
+            return _ctx.Authors;
+        }
 
 // LIKE ARTICLE
 

@@ -40,23 +40,12 @@ namespace MvcApp.Client.Controllers
         var response = await _http.GetAsync(apiUrl + "Article/articles");
 
         var jsonResponse = await response.Content.ReadAsStringAsync();
-        System.Console.WriteLine(jsonResponse);
+        //System.Console.WriteLine(jsonResponse);
 
         var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
         //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
 
         return await Task.FromResult(View("AuthorMain", ObjOrderList));
-
-        /*
-        return View("AuthorMain", new List<ArticleViewModel> {
-          new ArticleViewModel("First", false),
-          new ArticleViewModel("Second", false),
-          new ArticleViewModel("Third", true),
-          new ArticleViewModel("Four", true),
-          new ArticleViewModel("Five", true),
-          new ArticleViewModel("Six", true),
-        });
-        */
     }
 
     [HttpGet("view_article")]
