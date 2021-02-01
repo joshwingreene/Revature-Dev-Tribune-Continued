@@ -1,0 +1,24 @@
+@model MvcApp.Client.Models.Reader.ReaderViewModel;
+
+<div class="container-form-center">
+  <form class="content-form" asp-action="login" asp-controller="reader" method="GET">
+     <h2>Welcome Reader</h2>
+    <div class="from-group col-md-6">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input class="form-control" type="text" id="email" placeholder="Enter email" asp-for="@Model.Email" value="" required/>
+      </div>
+    </div>
+    <div class="from-group col-md-6">
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" id ="password" placeholder="Enter password" asp-for="@Model.Password" value="" required/>
+      </div>
+    </div>
+
+    <div class="from-group col-md-6">
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">Login</button>
+      </div>
+    </div>
+  </form>

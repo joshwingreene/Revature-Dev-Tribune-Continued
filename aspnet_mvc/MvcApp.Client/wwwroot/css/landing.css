@@ -1,0 +1,17 @@
+.landing{
+  background-color: red;
+  display:Flex;
+  flex-direction: column;
+  height:90%;
+}
+
+.landing-top{
+  display:Flex;
+  flex-direction: row;
+  height:60%;
+}
+.landing-bottom{
+  display:Flex;
+  flex-direction: row;
+  height:30%;
+}

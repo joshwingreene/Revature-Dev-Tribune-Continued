@@ -36,5 +36,12 @@ namespace StoreApi.Service.Controllers
       var r =_repo.CheckIfReaderExists(reader);
       return await Task.FromResult(Ok(r));
     }
+
+    [HttpGet("ReaderLogin")]
+    public async Task<IActionResult> GetReaderIfValidCredential(Reader reader)
+    {
+      var r =_repo.GetReaderIfValidCredential(reader);
+      return await Task.FromResult(Ok(r));
+    }
   }
 }

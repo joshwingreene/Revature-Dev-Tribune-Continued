@@ -1,1 +1,39 @@
-@* BODY AS NYTIMES *@
+@model List<MvcApp.Client.Models.Shared.ArticleViewModel>;
+<div class="container landing" style="background-color:red">
+  <div class="row landing-top" >
+    <div class="col-md-6">
+      <div class="article-main">
+        <h2>@Model[0].Title</h2>
+        <p>@Model[0].Author.Name</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="article-main">
+        <h2>@Model[1].Title</h2>
+        <p>@Model[1].Author.Name</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row landing-bottom">
+    <div class="col-md-3 ">
+      <div class="article-main-second">
+        <h3>@Model[2].Title</h3>
+        <p>@Model[2].Author.Name</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="article-main-second">
+        <h3>@Model[4].Title</h3>
+        <p>@Model[4].Author.Name</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="article-main-second">
+        <h3>@Model[4].Title</h3>
+        <p>@Model[4].Author.Name</p>
+      </div>
+    </div>
+
+  </div>
+</div>

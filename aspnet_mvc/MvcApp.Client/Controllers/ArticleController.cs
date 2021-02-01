@@ -6,8 +6,6 @@ using MvcApp.Client.Models.Author;
 using MvcApp.Client.Models.Shared;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using MvcApp.Client.Models.Shared;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Web;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -76,7 +74,7 @@ namespace MvcApp.Client.Controllers
             articleVM.EditedDate = DateTime.Now;
             //articleVM.Topic = new TopicViewModel("Big Data");
             articleVM.Author = new AuthorViewModel(3, "Joshwin Greene", "jg@aol.com", "12345");
-            
+
             System.Console.WriteLine("Topic: " + articleVM.Topic);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
             System.Console.WriteLine("Topic Name: " + articleVM.ChosenTopic);
@@ -88,7 +86,7 @@ namespace MvcApp.Client.Controllers
             System.Console.WriteLine("CreateArticle - Matched Topic Name: " + ChosenTopicObject.Name);
 
             articleVM.Topic = ChosenTopicObject;
-            
+
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/create_article");
             var postTask = _http.PostAsJsonAsync<ArticleViewModel>("create_article", articleVM);

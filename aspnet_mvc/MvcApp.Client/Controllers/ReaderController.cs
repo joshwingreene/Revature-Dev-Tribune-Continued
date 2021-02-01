@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Mvc;
-using MvcApp.Client.Models.Author;
 using MvcApp.Client.Models.Reader;
 using MvcApp.Client.Models.Shared;
 using Newtonsoft.Json;
@@ -27,7 +26,7 @@ namespace MvcApp.Client.Controllers
         }
 
 
-    [HttpGet]
+    [HttpGet("ReaderArticles")]
     public async Task<ActionResult> Get()
         {
             var article = new List<ArticleViewModel>(){};
@@ -48,25 +47,50 @@ namespace MvcApp.Client.Controllers
 
     [HttpGet("signup")]
     public ActionResult SignUp()
-        {
-          return View("signup");
-        }
+    {
+      return View("signup");
+    }
 
+// THIS IS THE SIGNUP ACTION //
     [HttpPost("confirm")]
     public IActionResult Confirm(ReaderViewModel model)
-        {
-          _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
-          var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
-          postTask.Wait();
-          var result = postTask.Result;
+    {
+      _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
+      var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
+      postTask.Wait();
+      var result = postTask.Result;
 
-          ViewBag.message = result.StatusCode;
-          if(result.IsSuccessStatusCode)
-          {
-             return RedirectToAction("get");
-          }
-          ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-          return View("signup");
-        }
+      ViewBag.message = result.StatusCode;
+      if(result.IsSuccessStatusCode)
+      {
+          return RedirectToAction("get");
+      }
+      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+      return View("signup");
+    }
+
+// EOF THE SIGNUP ACTION //
+
+    [HttpGet]
+    public IActionResult ReaederLogIn()
+    {
+      return View("login");
+    }
+
+    [HttpGet("{reader}")]
+    public async Task<IActionResult> Login(ReaderViewModel reader)
+    {
+      System.Console.WriteLine(reader.Email);
+      var response = await _http.GetAsync(apiUrl + "Reader/LogIn/");
+       if (response.IsSuccessStatusCode)
+            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var ObjOrderList = JsonConvert.DeserializeObject<ReaderViewModel>(jsonResponse);
+                System.Console.WriteLine(ObjOrderList.Email);
+                return await Task.FromResult(Ok(Content("Logged IN")));
+            }
+        return Content("error");
+    }
+
   }
 }
