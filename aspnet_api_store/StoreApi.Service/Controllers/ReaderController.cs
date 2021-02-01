@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StoreApi.Domain.Models;
 
@@ -14,12 +15,26 @@ namespace StoreApi.Service.Controllers
     }
 
     [HttpPost("CreateReader")]
-    public void CreateReader(Reader reader)
+    public async Task<IActionResult> CreateReader (Reader reader)
     {
-      System.Console.WriteLine("CreateReader here");
-      System.Console.WriteLine(reader.Email);
-      _repo.CreateReader(reader);
+      if(!_repo.CheckIfReaderExists(reader))
+      {
+        _repo.CreateReader(reader);
+        return await Task.FromResult(Ok());
+      }
+      else
+      {
+        return await Task.FromResult(BadRequest("User Already Exists"));
+      }
+
     }
 
+
+    [HttpGet("ReaderExists")]
+    public async Task<IActionResult> CheckIfReaderExists(Reader reader)
+    {
+      var r =_repo.CheckIfReaderExists(reader);
+      return await Task.FromResult(Ok(r));
+    }
   }
 }
