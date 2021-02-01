@@ -8,6 +8,7 @@ namespace MvcApp.Client.Models.Shared
 {
     public class ArticleViewModel
     {
+        public long EntityId { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public AuthorViewModel Author { get; set; }
