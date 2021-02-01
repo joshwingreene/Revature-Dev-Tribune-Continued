@@ -37,13 +37,18 @@ namespace StoreApi.Service.Controllers
       // get the assoc topic and add it to the article (needed bc it looks like even when translating the topic view model to topic in an article, it still isn't equiv)
       article.Topic = _repo.GetTopics().FirstOrDefault(t => t.EntityId == article.Topic.EntityId);
 
-      _repo.CreateArticle(article);
+      var createdArticle = _repo.CreateArticle(article);
 
-      return await Task.FromResult(Ok());
+      System.Console.WriteLine("Created Article Title: " + createdArticle.Title);
+
+      var articleJsonStr = JsonConvert.SerializeObject(createdArticle);
+
+      return await Task.FromResult(Ok(articleJsonStr));
     }
     [HttpPut("update_article")]
     public async Task<IActionResult> UpdateArticle(Article article)
     {
+      System.Console.WriteLine("UpdateArticle");
       _repo.UpdateArticle(article);
       return await Task.FromResult(Ok());
     }

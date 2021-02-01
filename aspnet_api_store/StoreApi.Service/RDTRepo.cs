@@ -39,14 +39,18 @@ namespace StoreApi.Service
             return _ctx.Articles.Where(a => a.Author.Email == email).Include(a => a.Author).Include(a => a.Topic);
         }
 
-        public void CreateArticle(Article article)
+        public Article CreateArticle(Article article)
         {
             _ctx.Articles.Add(article);
             _ctx.SaveChanges();
+            var rArticle = _ctx.Articles.OrderByDescending(a => a.EntityId)
+                       .FirstOrDefault();
+            return rArticle;
         }
 
         public void UpdateArticle(Article article)
         {
+          System.Console.WriteLine("UpdateArticle");
           _ctx.Articles.Update(article);
           _ctx.SaveChanges();
         }
