@@ -54,9 +54,15 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
-        public void DeleteArticle(Article article)
+        public void DeleteArticle(long id)
         {
-          _ctx.Articles.Remove(article);
+          var ArticleToDelete = _ctx.Articles.FirstOrDefault<Article>(a => a.EntityId == id);
+
+          if (ArticleToDelete == null)
+          {
+            return;
+          }
+          _ctx.Remove(ArticleToDelete);
           _ctx.SaveChanges();
         }
 

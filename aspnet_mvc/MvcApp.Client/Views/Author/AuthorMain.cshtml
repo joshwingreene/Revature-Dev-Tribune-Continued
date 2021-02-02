@@ -15,7 +15,7 @@
                 <form asp-action="view_article" asp-controller="author" method="GET">
                     <button type="submit">Edit</button>
                 </form>
-                <form asp-action="delete" asp-controller="author" method="POST">
+                <form asp-action="delete_article" asp-route-id="@Model[i].EntityId" asp-controller="author" method="POST">
                     <button type="submit">Delete</button>
                 </form>
             </li>

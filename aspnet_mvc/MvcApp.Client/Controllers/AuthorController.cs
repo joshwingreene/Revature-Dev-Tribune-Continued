@@ -52,6 +52,40 @@ namespace MvcApp.Client.Controllers
         return await Task.FromResult(View("AuthorMain", ObjOrderList));
     }
 
+    [HttpGet("author_main")]
+    public async Task<IActionResult> ViewAuthorHome()
+    {
+      var response = await _http.GetAsync(apiUrl + "Article/articles");
+
+      var jsonResponse = await response.Content.ReadAsStringAsync();
+
+      var ArticleVMs = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+
+      return await Task.FromResult(View("AuthorMain", ArticleVMs));
+    }
+
+    [HttpPost("delete_article/{id}")]
+    public async Task<IActionResult> DeleteArticle(long id)
+    {
+      var ArticleToDelete = new ArticleViewModel();
+      ArticleToDelete.EntityId = id;
+
+      System.Console.WriteLine("Id of Article to Delete: " + id);
+
+      _http.BaseAddress = new Uri(apiUrl + "Article/delete_article/" + id);
+      var deleteTask = await _http.DeleteAsync(_http.BaseAddress);
+
+      if(deleteTask.IsSuccessStatusCode)
+      {
+          return RedirectToAction("author_main");
+
+      }
+      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+
+      return RedirectToAction("author_main");
+    }
+
+
     [HttpGet("view_article")]
     public IActionResult ViewArticle()
     {
