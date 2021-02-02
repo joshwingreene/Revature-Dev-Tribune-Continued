@@ -15,12 +15,13 @@ namespace MvcApp.Client.Controllers
     private string apiUrl = "https://localhost:5001/";
     private HttpClient _http;
 
+
     public LandingController(){
         HttpClientHandler clientHandler = new HttpClientHandler();
         clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
         _http = new HttpClient(clientHandler);
     }
-    [HttpGet]
+    [HttpGet("/")]
     public async Task<IActionResult> Home()
     {
       var topics = new List<TopicViewModel>{};

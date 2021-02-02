@@ -80,13 +80,12 @@ namespace StoreApi.Service
 
         public Author GetAuthorIfValidCredential(Author author)
         {
-          //The author will be NULL if doesnt exist or password doesnt match
           var isEmailOk =_ctx.Authors.FirstOrDefault(a => a.Email == author.Email);
-          if( isEmailOk != null){
-            var isPasswordOk = _ctx.Authors.FirstOrDefault(ax =>ax.Password == author.Password);
-            return isPasswordOk != null? isPasswordOk: null;
+          if( isEmailOk == null){
+            return null;
           }
-          return isEmailOk;
+          var isPasswordOk = _ctx.Authors.FirstOrDefault(ax =>ax.Password == author.Password && ax.Email == author.Email);
+          return isPasswordOk!=null? isPasswordOk:null;
         }
 
         public bool CheckIfReaderExists(Reader reader)
@@ -99,13 +98,13 @@ namespace StoreApi.Service
 
          public Reader GetReaderIfValidCredential(Reader reader)
         {
-          //The author will be NULL if doesnt exist or password doesnt match
+
           var isEmailOk =_ctx.Readers.FirstOrDefault(a => a.Email == reader.Email);
           if( isEmailOk == null){
-            return isEmailOk;
+            return null;
           }
-          var isPasswordOk = _ctx.Readers.FirstOrDefault(ax =>ax.Password == isEmailOk.Password);
-          return isPasswordOk;
+          var isPasswordOk = _ctx.Readers.FirstOrDefault(ax =>ax.Password == reader.Password && ax.Email == reader.Email);
+          return isPasswordOk!=null? isPasswordOk:null;
         }
 
         public IEnumerable<Author> GetAuthors()

@@ -94,3 +94,44 @@ body {
 
 }
 
+.landing{
+  display:Flex;
+  flex-direction: column;
+
+}
+
+.landing-top{
+  background-color: red !important;
+  display:Flex;
+  flex-direction: row;
+
+}
+.landing-bottom{
+  display:Flex;
+  flex-direction: row;
+}
+
+@media (max-width: 600px) {
+
+  .small-screen-logo{
+    display:block;
+  }
+  .large-screen-logo{
+    display:none;
+  }
+
+}
+
+@media (min-width: 600px) {
+
+  .small-screen-logo{
+    display:none;
+  }
+  .large-screen-logo{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+  }
+
+}

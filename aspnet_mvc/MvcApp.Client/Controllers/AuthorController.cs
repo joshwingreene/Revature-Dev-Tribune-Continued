@@ -34,22 +34,21 @@ namespace MvcApp.Client.Controllers
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(AuthorViewModel authorViewModel)
+    public async Task<IActionResult> Login(AuthorViewModel author)
     {
-        System.Console.WriteLine("Login");
+        _http.BaseAddress= new Uri(apiUrl+"Author/AuthorLogin");
+        var postTask = await _http.PostAsJsonAsync<AuthorViewModel>("AuthorLogin",author);
 
-        System.Console.WriteLine("Email: " + authorViewModel.Email);
-        System.Console.WriteLine("Password: " + authorViewModel.Password);
-
-        var response = await _http.GetAsync(apiUrl + "Article/articles");
-
-        var jsonResponse = await response.Content.ReadAsStringAsync();
-        //System.Console.WriteLine(jsonResponse);
-
-        var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
-        //ObjOrderList.ForEach(m => System.Console.WriteLine(m.Name));
-
-        return await Task.FromResult(View("AuthorMain", ObjOrderList));
+        ViewBag.message = postTask.StatusCode;
+        if(postTask.IsSuccessStatusCode)
+        {
+          var response2 = await _http.GetAsync(apiUrl + "Article/articles");
+          var jsonResponse = await response2.Content.ReadAsStringAsync();
+          var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+          return await Task.FromResult(View("AuthorMain", ObjOrderList));;
+        }
+        ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+        return Content("Needs to login");
     }
 
     [HttpGet("view_article")]
@@ -107,7 +106,7 @@ namespace MvcApp.Client.Controllers
             articleVM.EditedDate = DateTime.Now;
             //articleVM.Topic = new TopicViewModel("Big Data");
             articleVM.Author = new AuthorViewModel(3, "Joshwin Greene", "jg@aol.com", "12345");
-            
+
             System.Console.WriteLine("Topic: " + articleVM.Topic);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
             System.Console.WriteLine("Topic Name: " + articleVM.ChosenTopic);
@@ -128,10 +127,10 @@ namespace MvcApp.Client.Controllers
               }
               else
               {
-                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));  
+                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));
               }
             }
-            
+
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/create_article");
             var postTask = await _http.PostAsJsonAsync<ArticleViewModel>("create_article", articleVM);
@@ -151,7 +150,7 @@ namespace MvcApp.Client.Controllers
             if(postTask.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-                
+
                 TempData["ArticleVM"] = JsonConvert.SerializeObject(articleVM);
                 TempData["TopicVMs"] = SerializeTopicViewModels(TopicVMs);
                 return Content("Success");
@@ -173,7 +172,7 @@ namespace MvcApp.Client.Controllers
             SavedArticleVM.Title = articleVM.Title;
             SavedArticleVM.ChosenTopic = articleVM.ChosenTopic;
             SavedArticleVM.Body = articleVM.Body;
-            
+
             System.Console.WriteLine("Saved Title: " + SavedArticleVM.Title);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
             System.Console.WriteLine("Saved Chosen Topic: " + SavedArticleVM.ChosenTopic);
@@ -195,10 +194,10 @@ namespace MvcApp.Client.Controllers
               }
               else
               {
-                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));  
+                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));
               }
             }
-            
+
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/update_article");
             var putTask = _http.PutAsJsonAsync<ArticleViewModel>("update_article", articleVM);
@@ -233,5 +232,6 @@ namespace MvcApp.Client.Controllers
           }
           return View("Error");
         }
+
   }
 }

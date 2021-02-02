@@ -23,9 +23,7 @@ namespace MvcApp.Client.Controllers
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _http = new HttpClient(clientHandler);
-        }
-
-
+    }
     [HttpGet("ReaderArticles")]
     public async Task<ActionResult> Get()
         {
@@ -40,7 +38,7 @@ namespace MvcApp.Client.Controllers
                 article = ObjOrderList;
 
 
-                return await Task.FromResult(View("home", article));
+                return await Task.FromResult(View("ReaderMain", article));
             }
             return View("error");
         }
@@ -48,7 +46,7 @@ namespace MvcApp.Client.Controllers
     [HttpGet("signup")]
     public ActionResult SignUp()
     {
-      return View("signup");
+      return View("ReaderSignup");
     }
 
 // THIS IS THE SIGNUP ACTION //
@@ -74,23 +72,31 @@ namespace MvcApp.Client.Controllers
     [HttpGet]
     public IActionResult ReaederLogIn()
     {
-      return View("login");
+      return View("ReaderLogin");
     }
 
-    [HttpGet("{reader}")]
+    [HttpPost("Login")]
     public async Task<IActionResult> Login(ReaderViewModel reader)
     {
-      System.Console.WriteLine(reader.Email);
-      var response = await _http.GetAsync(apiUrl + "Reader/LogIn/");
-       if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var ObjOrderList = JsonConvert.DeserializeObject<ReaderViewModel>(jsonResponse);
-                System.Console.WriteLine(ObjOrderList.Email);
-                return await Task.FromResult(Ok(Content("Logged IN")));
-            }
-        return Content("error");
+      System.Console.WriteLine(reader.Email+"   "+reader.Password);
+      _http.BaseAddress= new Uri(apiUrl+"Reader/ReaderLogin");
+      var postTask = await _http.PostAsJsonAsync<ReaderViewModel>("ReaderLogin",reader);
+      // postTask.Wait();
+      // var result = postTask.Result;
+      ViewBag.message = postTask.StatusCode;
+      if(postTask.IsSuccessStatusCode)
+      {
+
+          return RedirectToAction("ReaderArticles");
+      }
+      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+      return Content("Needs to login");
     }
 
+    // [httpGet("ReaderAccess")]
+    // public IActionResult ReaderAccess()
+    // {
+    //   return View("ReaderAccess");
+    // }
   }
 }

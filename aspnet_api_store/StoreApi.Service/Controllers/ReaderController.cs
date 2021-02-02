@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StoreApi.Domain.Models;
+
 
 namespace StoreApi.Service.Controllers
 {
@@ -37,11 +39,11 @@ namespace StoreApi.Service.Controllers
       return await Task.FromResult(Ok(r));
     }
 
-    [HttpGet("ReaderLogin")]
+    [HttpPost("ReaderLogin")]
     public async Task<IActionResult> GetReaderIfValidCredential(Reader reader)
     {
       var r =_repo.GetReaderIfValidCredential(reader);
-      return await Task.FromResult(Ok(r));
+      return r!=null ? await Task.FromResult(Ok()): await Task.FromResult(BadRequest("Not able to log in"));
     }
   }
 }

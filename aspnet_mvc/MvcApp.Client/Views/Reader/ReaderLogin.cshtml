@@ -1,7 +1,7 @@
 @model MvcApp.Client.Models.Reader.ReaderViewModel;
 
 <div class="container-form-center">
-  <form class="content-form" asp-action="login" asp-controller="reader" method="GET">
+  <form class="content-form" asp-action="login" asp-controller="reader" method="POST">
      <h2>Welcome Reader</h2>
     <div class="from-group col-md-6">
       <div class="form-group">
@@ -19,6 +19,7 @@
     <div class="from-group col-md-6">
       <div class="form-group">
         <button type="submit" class="btn btn-success">Login</button>
+        <button class="btn btn-warning" onclick="location.href='@Url.Action("Home", "Landing")'">Go Back</button>
       </div>
     </div>
   </form>
