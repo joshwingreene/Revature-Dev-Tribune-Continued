@@ -50,8 +50,7 @@ namespace StoreApi.Service
 
         public void UpdateArticle(Article article)
         {
-          System.Console.WriteLine("UpdateArticle");
-          _ctx.Articles.Update(article);
+          _ctx.Update(article);
           _ctx.SaveChanges();
         }
 

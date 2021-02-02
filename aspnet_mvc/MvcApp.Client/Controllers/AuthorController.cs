@@ -105,7 +105,6 @@ namespace MvcApp.Client.Controllers
             articleVM.ImagePath = "";
             //articleVM.PublishedDate = null;
             articleVM.EditedDate = DateTime.Now;
-            //articleVM.Topic = new TopicViewModel("Big Data");
             articleVM.Author = new AuthorViewModel(3, "Joshwin Greene", "jg@aol.com", "12345");
             
             System.Console.WriteLine("Topic: " + articleVM.Topic);
@@ -135,27 +134,27 @@ namespace MvcApp.Client.Controllers
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/create_article");
             var postTask = await _http.PostAsJsonAsync<ArticleViewModel>("create_article", articleVM);
-            //postTask.Wait();
-
-            //var result = postTask.Result;
-
-            //System.Console.WriteLine(result.Content);
+          
             var articleStr = await postTask.Content.ReadAsStringAsync();
             System.Console.WriteLine("Length of response: " + articleStr.Length);
             System.Console.WriteLine(articleStr);
             var articleObj = JsonConvert.DeserializeObject<ArticleViewModel>(articleStr);
             System.Console.WriteLine("Article Title: " + articleObj.Title);
-            //var articleFromService = JsonConvert.DeserializeObject<ArticleViewModel>(postTask.Content);
-            //System.Console.WriteLine(articleFromService.Title);
+            //System.Console.WriteLine("Article Topic Name: " + articleObj.Topic.Name);
+
+            articleObj.ChosenTopic = articleVM.ChosenTopic;
+            articleObj.AvailableTopics = articleVM.AvailableTopics;
+
+            System.Console.WriteLine("Article Available Topics Count: " + articleObj.AvailableTopics.Count);
 
             if(postTask.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
                 
-                TempData["ArticleVM"] = JsonConvert.SerializeObject(articleVM);
+                TempData["ArticleVM"] = JsonConvert.SerializeObject(articleObj);
                 TempData["TopicVMs"] = SerializeTopicViewModels(TopicVMs);
-                return Content("Success");
-                //return View("ArticleEditor", articleVM);
+                //return Content("Success");
+                return View("ArticleEditor", articleObj);
 
             }
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
@@ -166,18 +165,17 @@ namespace MvcApp.Client.Controllers
         [HttpPost("edit_article")]
         public IActionResult EditArticle(ArticleViewModel articleVM)
         {
-            System.Console.WriteLine("EditArticle");
-
             var SavedArticleVM = JsonConvert.DeserializeObject<ArticleViewModel>(TempData["ArticleVM"].ToString());
 
             SavedArticleVM.Title = articleVM.Title;
             SavedArticleVM.ChosenTopic = articleVM.ChosenTopic;
             SavedArticleVM.Body = articleVM.Body;
+            SavedArticleVM.EditedDate = DateTime.Now;
             
-            System.Console.WriteLine("Saved Title: " + SavedArticleVM.Title);
+            //System.Console.WriteLine("Saved Title: " + SavedArticleVM.Title);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
-            System.Console.WriteLine("Saved Chosen Topic: " + SavedArticleVM.ChosenTopic);
-            System.Console.WriteLine("Saved Chosen Body: " + SavedArticleVM.Body);
+            //System.Console.WriteLine("Saved Chosen Topic: " + SavedArticleVM.ChosenTopic);
+            //System.Console.WriteLine("Saved Chosen Body: " + SavedArticleVM.Body);
 
             var TopicVMs = DeserializeTopicViewModels(TempData["TopicVMs"]);
 
@@ -185,37 +183,38 @@ namespace MvcApp.Client.Controllers
 
             System.Console.WriteLine("EditArticle - Matched Topic Name: " + ChosenTopicObject.Name);
 
-            articleVM.Topic = ChosenTopicObject;
+            SavedArticleVM.Topic = ChosenTopicObject;
 
             foreach(var topic in TopicVMs)
             {
               if (topic.Name == ChosenTopicObject.Name)
               {
-                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, true));
+                SavedArticleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, true));
               }
               else
               {
-                articleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));  
+                SavedArticleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));  
               }
             }
             
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/update_article");
-            var putTask = _http.PutAsJsonAsync<ArticleViewModel>("update_article", articleVM);
+            var putTask = _http.PutAsJsonAsync<ArticleViewModel>("update_article", SavedArticleVM);
             putTask.Wait();
 
             var result = putTask.Result;
             if(result.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-                TempData["ArticleVM"] = JsonConvert.SerializeObject(articleVM);
-                return Content("Success");
-                //return View("ArticleEditor", articleVM);
+                TempData["ArticleVM"] = JsonConvert.SerializeObject(SavedArticleVM);
+                TempData["TopicVMs"] = SerializeTopicViewModels(TopicVMs);
+                //return Content("Success");
+                return View("ArticleEditor", SavedArticleVM);
 
             }
             ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
 
-            return View("show_article_creator");
+            return View("ArticleEditor", articleVM);
         }
 
         [HttpGet("temp")]

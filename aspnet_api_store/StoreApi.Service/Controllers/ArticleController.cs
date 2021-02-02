@@ -39,8 +39,6 @@ namespace StoreApi.Service.Controllers
 
       var createdArticle = _repo.CreateArticle(article);
 
-      System.Console.WriteLine("Created Article Title: " + createdArticle.Title);
-
       var articleJsonStr = JsonConvert.SerializeObject(createdArticle);
 
       return await Task.FromResult(Ok(articleJsonStr));
@@ -48,7 +46,6 @@ namespace StoreApi.Service.Controllers
     [HttpPut("update_article")]
     public async Task<IActionResult> UpdateArticle(Article article)
     {
-      System.Console.WriteLine("UpdateArticle");
       _repo.UpdateArticle(article);
       return await Task.FromResult(Ok());
     }
