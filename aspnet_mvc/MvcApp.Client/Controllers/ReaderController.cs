@@ -1,6 +1,5 @@
 
 using Microsoft.AspNetCore.Mvc;
-using MvcApp.Client.Models.Author;
 using MvcApp.Client.Models.Reader;
 using MvcApp.Client.Models.Shared;
 using Newtonsoft.Json;
@@ -24,10 +23,8 @@ namespace MvcApp.Client.Controllers
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
             _http = new HttpClient(clientHandler);
-        }
-
-
-    [HttpGet]
+    }
+    [HttpGet("ReaderArticles")]
     public async Task<ActionResult> Get()
         {
             var article = new List<ArticleViewModel>(){};
@@ -41,32 +38,65 @@ namespace MvcApp.Client.Controllers
                 article = ObjOrderList;
 
 
-                return await Task.FromResult(View("home", article));
+                return await Task.FromResult(View("ReaderMain", article));
             }
             return View("error");
         }
 
     [HttpGet("signup")]
     public ActionResult SignUp()
-        {
-          return View("signup");
-        }
+    {
+      return View("ReaderSignup");
+    }
 
+// THIS IS THE SIGNUP ACTION //
     [HttpPost("confirm")]
     public IActionResult Confirm(ReaderViewModel model)
-        {
-          _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
-          var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
-          postTask.Wait();
-          var result = postTask.Result;
+    {
+      _http.BaseAddress= new Uri(apiUrl+"Reader/CreateReader");
+      var postTask = _http.PostAsJsonAsync<ReaderViewModel>("CreateReader",model);
+      postTask.Wait();
+      var result = postTask.Result;
 
-          ViewBag.message = result.StatusCode;
-          if(result.IsSuccessStatusCode)
-          {
-             return RedirectToAction("get");
-          }
-          ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-          return View("signup");
-        }
+      ViewBag.message = result.StatusCode;
+      if(result.IsSuccessStatusCode)
+      {
+          return RedirectToAction("get");
+      }
+      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+      return View("signup");
+    }
+
+// EOF THE SIGNUP ACTION //
+
+    [HttpGet]
+    public IActionResult ReaederLogIn()
+    {
+      return View("ReaderLogin");
+    }
+
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login(ReaderViewModel reader)
+    {
+      System.Console.WriteLine(reader.Email+"   "+reader.Password);
+      _http.BaseAddress= new Uri(apiUrl+"Reader/ReaderLogin");
+      var postTask = await _http.PostAsJsonAsync<ReaderViewModel>("ReaderLogin",reader);
+      // postTask.Wait();
+      // var result = postTask.Result;
+      ViewBag.message = postTask.StatusCode;
+      if(postTask.IsSuccessStatusCode)
+      {
+
+          return RedirectToAction("ReaderArticles");
+      }
+      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+      return Content("Needs to login");
+    }
+
+    // [httpGet("ReaderAccess")]
+    // public IActionResult ReaderAccess()
+    // {
+    //   return View("ReaderAccess");
+    // }
   }
 }
