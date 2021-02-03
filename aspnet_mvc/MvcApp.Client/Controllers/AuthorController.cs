@@ -188,15 +188,9 @@ namespace MvcApp.Client.Controllers
             if(postTask.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-<<<<<<< HEAD
                 
                 TempData["ArticleVM"] = GenericJSONSerializer<ArticleViewModel>(articleObj);
                 TempData["TopicVMs"] = GenericJSONSerializer<List<TopicViewModel>>(TopicVMs);
-=======
-
-                TempData["ArticleVM"] = JsonConvert.SerializeObject(articleObj);
-                TempData["TopicVMs"] = SerializeTopicViewModels(TopicVMs);
->>>>>>> main
                 //return Content("Success");
                 return View("ArticleEditor", articleObj);
 
