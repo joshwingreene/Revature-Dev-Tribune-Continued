@@ -1,0 +1,31 @@
+@model List<MvcApp.Client.Models.Shared.ArticleViewModel>
+
+
+<h1>@ViewBag.topic</h1>
+<div class ="container-fluid">
+    @for(int i = 0; i < @Model.Count; i++)
+    {
+      @if(@Model[i].Topic.Name == @ViewBag.topic)
+      {
+        <div class="row " id="section-Article">
+          <div class="col-sm" id="col-div-right">
+            <figure>
+              <img class="figure-img img-fluid" src="http://placekitten.com/300/600" alt="Article Image" style="width:400px;height:300px" >
+            </figure>
+          </div>
+          <div class="col-sm" id="col-div-right">
+            <header>
+              <h2>@Model[i].Title</h2>
+              <h3>@Model[i].Topic.Name</h3>
+            </header>
+            <body>
+              <p>@Model[i].Body</p>
+            </body>
+            <small>@Model[i].Author.Name</small>
+              <a href="#">Load More..</a>
+            </div>
+          </div>
+      }
+    }|
+
+</div>

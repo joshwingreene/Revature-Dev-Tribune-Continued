@@ -167,7 +167,7 @@ namespace MvcApp.Client.Controllers
             // prepare and make request
             _http.BaseAddress = new Uri(apiUrl + "Article/create_article");
             var postTask = await _http.PostAsJsonAsync<ArticleViewModel>("create_article", articleVM);
-          
+
             var articleStr = await postTask.Content.ReadAsStringAsync();
             System.Console.WriteLine("Length of response: " + articleStr.Length);
             System.Console.WriteLine(articleStr);
@@ -183,7 +183,7 @@ namespace MvcApp.Client.Controllers
             if(postTask.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-                
+
                 TempData["ArticleVM"] = JsonConvert.SerializeObject(articleObj);
                 TempData["TopicVMs"] = SerializeTopicViewModels(TopicVMs);
                 //return Content("Success");
@@ -204,7 +204,7 @@ namespace MvcApp.Client.Controllers
             SavedArticleVM.ChosenTopic = articleVM.ChosenTopic;
             SavedArticleVM.Body = articleVM.Body;
             SavedArticleVM.EditedDate = DateTime.Now;
-            
+
             //System.Console.WriteLine("Saved Title: " + SavedArticleVM.Title);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
             //System.Console.WriteLine("Saved Chosen Topic: " + SavedArticleVM.ChosenTopic);
@@ -226,7 +226,7 @@ namespace MvcApp.Client.Controllers
               }
               else
               {
-                SavedArticleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));  
+                SavedArticleVM.AvailableTopics.Add(new SelectListItem(topic.Name, topic.Name, false));
               }
             }
 

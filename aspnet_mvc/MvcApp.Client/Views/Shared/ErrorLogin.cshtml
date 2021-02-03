@@ -1,0 +1,30 @@
+
+@{
+    ViewData["Title"] = "ErrorLogin";
+
+}
+
+<div class="row">
+  <div class="col-xs-6">
+    <img class="center" src="~/assets/RDTlogo.png" width="260" height="150" alt="RDT logo">
+  </div>
+  <div class="col-xs-6">
+    <h1 class="text-danger">Sorry about this Inconvinient</h1>
+    <h2>Looks like you enter <strong>Invalid Credentials</strong></h2>
+  </div>
+</div>
+
+
+@if(ViewBag.type == "Reader")
+{
+  <p>We will send you back to the Main Landing Page or if you dont have an account you can sign up for a new account,<br>
+  please press one of the buttons below.</p>
+  <button class="btn btn-secondary" id="button" onclick="location.href='@Url.Action("SignUp", "Reader")'">Create a @ViewBag.type Account</button>
+}else{
+  <p>Dear Author, we were not able to verify your credentials, plesae try to log in again if not you can always contact out<br>
+  Help Desk, as well you can alwyas visit our main page.
+  please press one of the buttons below.</p>
+  <button class="btn btn-primary" onclick="location.href='@Url.Action("", "Author")'">Log in as an @ViewBag.type</button>
+}
+<button class="btn btn-warning" onclick="location.href='@Url.Action("Home", "Landing")'">Go to Main Page</button>
+

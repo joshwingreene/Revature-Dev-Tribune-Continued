@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
-using MvcApp.Client.Models.Reader;
 using MvcApp.Client.Models.Shared;
+using MvcApp.Client.Models.Reader;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -20,28 +20,25 @@ namespace MvcApp.Client.Controllers
     private HttpClient _http;
 
     public ReaderController(){
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            _http = new HttpClient(clientHandler);
+      HttpClientHandler clientHandler = new HttpClientHandler();
+      clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+      _http = new HttpClient(clientHandler);
     }
     [HttpGet("ReaderArticles")]
     public async Task<ActionResult> Get()
-        {
-            var article = new List<ArticleViewModel>(){};
-            var response = await _http.GetAsync(apiUrl + "article/articles");
+    {
+      var response = await _http.GetAsync(apiUrl + "Topic/topics");
+      if (response.IsSuccessStatusCode)
+      {
+        var JsonResponse = await response.Content.ReadAsStringAsync();
+        var topicModel = JsonConvert.DeserializeObject<List<ViewTopicModel>>(JsonResponse);
 
-            if (response.IsSuccessStatusCode)
-            {
+        System.Console.WriteLine(topicModel.Count);
 
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
-                article = ObjOrderList;
-
-
-                return await Task.FromResult(View("ReaderMain", article));
-            }
-            return View("error");
-        }
+        return await Task.FromResult(View("ReaderMain",topicModel));
+      }
+      return View("error");
+    }
 
     [HttpGet("signup")]
     public ActionResult SignUp()
@@ -78,25 +75,37 @@ namespace MvcApp.Client.Controllers
     [HttpPost("Login")]
     public async Task<IActionResult> Login(ReaderViewModel reader)
     {
-      System.Console.WriteLine(reader.Email+"   "+reader.Password);
       _http.BaseAddress= new Uri(apiUrl+"Reader/ReaderLogin");
       var postTask = await _http.PostAsJsonAsync<ReaderViewModel>("ReaderLogin",reader);
-      // postTask.Wait();
-      // var result = postTask.Result;
       ViewBag.message = postTask.StatusCode;
       if(postTask.IsSuccessStatusCode)
       {
-
-          return RedirectToAction("ReaderArticles");
+        return RedirectToAction("Get");
       }
-      ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-      return Content("Needs to login");
+      ViewBag.type ="Reader";
+      return View("ErrorLogin");
     }
 
-    // [httpGet("ReaderAccess")]
-    // public IActionResult ReaderAccess()
-    // {
-    //   return View("ReaderAccess");
-    // }
+    [HttpPost("GetReaderArticles/{topicOption}")]
+    public async Task<ActionResult> GetReaderArticles(string topicOption)
+    {
+      System.Console.WriteLine("YOU HAVE CHOOSEN" + topicOption);
+      var article = new List<ArticleViewModel>(){};
+      var response = await _http.GetAsync(apiUrl + "article/articles");
+
+      if (response.IsSuccessStatusCode)
+      {
+
+          var jsonResponse = await response.Content.ReadAsStringAsync();
+          var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+          article = ObjOrderList;
+          ViewBag.topic = topicOption;
+          return await Task.FromResult(View("TopicNavigation", article));
+      }
+      return View("error");
+    }
+
+
+
   }
 }
