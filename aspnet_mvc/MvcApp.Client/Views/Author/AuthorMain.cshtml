@@ -16,14 +16,16 @@
         {
             <li class="card" style="margin-bottom: 10px">
                 <div class="card-body">
-                    <h4>@Model[i].Title</h4>
+                    <a asp-action="view_article" asp-controller="author" asp-route-id="@Model[i].EntityId" method="POST">
+                        <h4>@Model[i].Title</h4>
+                    </a>
                     <p>By: @Model[i].Author.Name</p>
                 </div>
                 <hr id="card-divider" />
                 <div class="card-body" id="article-sub-area">
                     <div style="width: 30%; display: flex; flex-direction: row">
                         <form asp-action="view_article" asp-controller="author" method="GET">
-                        <button id="article-list-edit-btn" class="btn-link article-list-btn" type="submit">Edit</button>
+                            <button id="article-list-edit-btn" class="btn-link article-list-btn" type="submit">Edit</button>
                         </form>
                         <form asp-action="delete_article" asp-route-id="@Model[i].EntityId" asp-controller="author" method="POST">
                             <button id="article-list-delete-btn" class="btn-link article-list-btn" type="submit">Delete</button>
