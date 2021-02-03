@@ -46,7 +46,7 @@ namespace MvcApp.Client.Controllers
         {
           var response2 = await _http.GetAsync(apiUrl + "Article/articles");
           var jsonResponse = await response2.Content.ReadAsStringAsync();
-          var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+          var ObjOrderList = GenericJSONDeserializerFromTempDataWithComplexObj<List<ArticleViewModel>>(jsonResponse);
           return await Task.FromResult(View("AuthorMain", ObjOrderList));
         }
         ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
@@ -60,7 +60,7 @@ namespace MvcApp.Client.Controllers
 
       var jsonResponse = await response.Content.ReadAsStringAsync();
 
-      var ArticleVMs = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+      var ArticleVMs = GenericJSONDeserializerFromTempDataWithComplexObj<List<ArticleViewModel>>(jsonResponse);
 
       return await Task.FromResult(View("AuthorMain", ArticleVMs));
     }
@@ -103,7 +103,7 @@ namespace MvcApp.Client.Controllers
             {
                 var JsonResponse = await response.Content.ReadAsStringAsync();
 
-                var TopicViewModels = JsonConvert.DeserializeObject<List<TopicViewModel>>(JsonResponse);
+                var TopicViewModels = GenericJSONDeserializerFromTempDataWithComplexObj<List<TopicViewModel>>(JsonResponse);
 
                 List<SelectListItem> TopicSelectListItems = new List<SelectListItem>();
 
@@ -173,7 +173,7 @@ namespace MvcApp.Client.Controllers
             var articleStr = await postTask.Content.ReadAsStringAsync();
             System.Console.WriteLine("Length of response: " + articleStr.Length);
             System.Console.WriteLine(articleStr);
-            var articleObj = JsonConvert.DeserializeObject<ArticleViewModel>(articleStr);
+            var articleObj = GenericJSONDeserializerFromTempDataWithComplexObj<ArticleViewModel>(articleStr);
             System.Console.WriteLine("Article Title: " + articleObj.Title);
             //System.Console.WriteLine("Article Topic Name: " + articleObj.Topic.Name);
 
@@ -186,7 +186,7 @@ namespace MvcApp.Client.Controllers
             {
                 System.Console.WriteLine("Success");
                 
-                TempData["ArticleVM"] = JsonConvert.SerializeObject(articleObj);
+                TempData["ArticleVM"] = GenericJSONSerializer<ArticleViewModel>(articleObj);
                 TempData["TopicVMs"] = GenericJSONSerializer<List<TopicViewModel>>(TopicVMs);
                 //return Content("Success");
                 return View("ArticleEditor", articleObj);
@@ -200,7 +200,7 @@ namespace MvcApp.Client.Controllers
         [HttpPost("edit_article")]
         public IActionResult EditArticle(ArticleViewModel articleVM)
         {
-            var SavedArticleVM = JsonConvert.DeserializeObject<ArticleViewModel>(TempData["ArticleVM"].ToString());
+            var SavedArticleVM = GenericJSONDeserializerFromTempDataWithComplexObj<ArticleViewModel>(TempData["ArticleVM"].ToString());
 
             SavedArticleVM.Title = articleVM.Title;
             SavedArticleVM.ChosenTopic = articleVM.ChosenTopic;
@@ -241,7 +241,7 @@ namespace MvcApp.Client.Controllers
             if(result.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-                TempData["ArticleVM"] = JsonConvert.SerializeObject(SavedArticleVM);
+                TempData["ArticleVM"] = GenericJSONSerializer<ArticleViewModel>(SavedArticleVM);
                 TempData["TopicVMs"] = GenericJSONSerializer<List<TopicViewModel>>(TopicVMs);
                 //return Content("Success");
                 return View("ArticleEditor", SavedArticleVM);
@@ -262,7 +262,7 @@ namespace MvcApp.Client.Controllers
             var jsonResponse = await response.Content.ReadAsStringAsync();
             // System.Console.WriteLine(jsonResponse);
 
-            var ObjOrderList = JsonConvert.DeserializeObject<List<TopicViewModel>>(jsonResponse);
+            var ObjOrderList = GenericJSONDeserializerFromTempDataWithComplexObj<List<TopicViewModel>>(jsonResponse);
             return await Task.FromResult(View("home", ObjOrderList));
           }
           return View("Error");
