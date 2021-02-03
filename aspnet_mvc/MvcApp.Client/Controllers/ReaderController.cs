@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-
+using System.Text;
 
 namespace MvcApp.Client.Controllers
 {
@@ -24,19 +24,51 @@ namespace MvcApp.Client.Controllers
       clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
       _http = new HttpClient(clientHandler);
     }
+    
     [HttpGet("ReaderArticles")]
     public async Task<ActionResult> Get()
     {
-      var response = await _http.GetAsync(apiUrl + "Topic/topics");
-      if (response.IsSuccessStatusCode)
+      System.Console.WriteLine("ReaderArticles");
+
+      List<ViewTopicModel> Topics = null;
+      bool TopicsWereReceived = false;
+
+      List<ArticleViewModel> Articles = null;
+      bool ArticlesWereReceived = false;
+
+      var tResponse = await _http.GetAsync(apiUrl + "Topic/topics");
+      if (tResponse.IsSuccessStatusCode)
       {
-        var JsonResponse = await response.Content.ReadAsStringAsync();
+        var JsonResponse = await tResponse.Content.ReadAsStringAsync();
         var topicModel = JsonConvert.DeserializeObject<List<ViewTopicModel>>(JsonResponse);
 
-        System.Console.WriteLine(topicModel.Count);
+        TempData["TopicVMs"] = JsonResponse;
 
-        return await Task.FromResult(View("ReaderMain",topicModel));
+        Topics = topicModel;
+        TopicsWereReceived = true;
+
+        System.Console.WriteLine(topicModel.Count);
       }
+
+      var aResponse = await _http.GetAsync(apiUrl + "article/articles");
+
+      if (aResponse.IsSuccessStatusCode)
+      {
+          var jsonResponse = await aResponse.Content.ReadAsStringAsync();
+          var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+          var articles = ObjOrderList;
+
+          Articles = articles;
+          ArticlesWereReceived = true;
+      }
+
+      if (TopicsWereReceived && ArticlesWereReceived)
+      {
+        var ArticleTopicBundleVM = new ArticleTopicBundleViewModel(Articles, Topics);
+
+        return await Task.FromResult(View("ReaderMain", ArticleTopicBundleVM));
+      }
+
       return View("error");
     }
 
@@ -80,32 +112,36 @@ namespace MvcApp.Client.Controllers
       ViewBag.message = postTask.StatusCode;
       if(postTask.IsSuccessStatusCode)
       {
-        return RedirectToAction("Get");
+        return RedirectToAction("ReaderArticles"); // Looks like it will use the actual method name if it can't find the method with the desired path
       }
       ViewBag.type ="Reader";
       return View("ErrorLogin");
     }
 
-    [HttpPost("GetReaderArticles/{topicOption}")]
-    public async Task<ActionResult> GetReaderArticles(string topicOption)
+    [HttpPost("GetReaderArticles")] //[HttpPost("GetReaderArticles/{topicOption}")] <- was giving issues
+    public async Task<ActionResult> GetReaderArticles(ViewTopicModel model)
     {
-      System.Console.WriteLine("YOU HAVE CHOOSEN" + topicOption);
+      //System.Console.WriteLine("ViewTopicModel Name: " + model.Name);
+      var topicOption = model.Name;
+
       var article = new List<ArticleViewModel>(){};
-      var response = await _http.GetAsync(apiUrl + "article/articles");
+      var response = await _http.GetAsync(apiUrl + "Article/GetArticleByTopic/" + topicOption);
 
       if (response.IsSuccessStatusCode)
       {
 
           var jsonResponse = await response.Content.ReadAsStringAsync();
-          var ObjOrderList = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
-          article = ObjOrderList;
-          ViewBag.topic = topicOption;
-          return await Task.FromResult(View("TopicNavigation", article));
+          var ArticleVMs = JsonConvert.DeserializeObject<List<ArticleViewModel>>(jsonResponse);
+
+          var TopicVMs = JsonConvert.DeserializeObject<List<ViewTopicModel>>(TempData["TopicVMs"].ToString());
+
+          TempData["TopicVMs"] = JsonConvert.SerializeObject(TopicVMs);
+
+          var ArticleTopicBundleVM = new ArticleTopicBundleViewModel(ArticleVMs, TopicVMs);
+          ArticleTopicBundleVM.ChosenTopicToFilterBy = topicOption;
+          return await Task.FromResult(View("TopicSpecificArticles", ArticleTopicBundleVM));
       }
       return View("error");
     }
-
-
-
   }
 }

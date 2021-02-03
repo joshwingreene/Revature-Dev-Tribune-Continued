@@ -73,9 +73,9 @@ namespace StoreApi.Service
           _ctx.SaveChanges();
         }
 
-        public IEnumerable<Article> GetArticlesByTopic(Topic topic)
+        public List<Article> GetArticlesByTopic(string topicName)
         {
-          return _ctx.Articles.Where(a => a.Topic.Name == topic.Name).Include(a=>a.Topic).Include(a => a.Author);
+          return _ctx.Articles.Where(a => a.Topic.Name == topicName).Include(a=>a.Topic).Include(a => a.Author).ToList();
         }
 
         public IEnumerable<Reader> GetReaders()

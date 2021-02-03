@@ -1,24 +1,28 @@
 #article_list {
-    display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    margin: 0;
-    width: '100%';
-    padding: 0;
+    padding-inline-start: 0px;
 }
 
-#article_list li {
+#card-divider {
+    margin: 0px;
+}
+
+#article-sub-area {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
-    padding: 5px;
 }
 
-#article_list li p {
-    display: inline;
+.article-list-btn {
+    border: none;
+    background-color: transparent;
+}
+
+#article-list-delete-btn {
+    color: red;
+}
+
+#article-list-edit-btn {
+    color: blue;
 }
 
 #article_creator_form {
