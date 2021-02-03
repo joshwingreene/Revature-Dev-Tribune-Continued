@@ -1,40 +1,37 @@
 @model List<MvcApp.Client.Models.Shared.ArticleViewModel>;
+@{
 
-<div class="container ">
-  <div class="row" >
-    <div class="col-md-6">
-      <div class="article-main">
+}
+
+<div class="landing">
+
+      <div class="article-main" style="background-image:url(http://placekitten.com/500/500) ;">
         <h2>@Model[0].Title</h2>
         <p>@Model[0].Author.Name</p>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="article-main">
+
+      <div class="article-main" style="background-image:url(http://placekitten.com/500/600);" >
         <h2>@Model[1].Title</h2>
         <p>@Model[1].Author.Name</p>
       </div>
-    </div>
-  </div>
-  <button class="btn btn-success">SUCCSD</button>
-  <div class="row">
-    <div class="col-md-3 ">
-      <div class="article-main-second">
-        <h3>@Model[2].Title</h3>
-        <p>@Model[2].Author.Name</p>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="article-main-second">
-        <h3>@Model[4].Title</h3>
-        <p>@Model[4].Author.Name</p>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="article-main-second">
-        <h3>@Model[4].Title</h3>
-        <p>@Model[4].Author.Name</p>
-      </div>
-    </div>
 
-  </div>
+</div>
+<div class="landing">
+
+        <div class="article-main-second" style="background-image:url(http://placekitten.com/300/400);" >
+          <h3>@Model[2].Title</h3>
+          <p>@Model[2].Author.Name</p>
+        </div>
+
+
+        <div class="article-main-second" style="background-image:url(http://placekitten.com/300/700);" >
+          <h3>@Model[4].Title</h3>
+          <p>@Model[4].Author.Name</p>
+        </div>
+
+
+        <div class="article-main-second" style="background-image:url(http://placekitten.com/300/300);" >
+          <h3>@Model[4].Title</h3>
+          <p>@Model[4].Author.Name</p>
+        </div>
 </div>

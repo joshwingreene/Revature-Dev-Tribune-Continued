@@ -1,3 +1,6 @@
-body{
-  background-color: red;
+*{
+  color: white;
+}
+.container{
+  max-width: 100%;
 }
