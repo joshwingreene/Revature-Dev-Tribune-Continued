@@ -19,8 +19,8 @@ namespace StoreApi.Service.Controllers
     [HttpPost("AuthorLogin")]
     public async Task<IActionResult> GetAuthorIfValidCredential(Author author)
     {
-      var r =_repo.GetAuthorIfValidCredential(author);
-      return r!=null ? await Task.FromResult(Ok()): await Task.FromResult(BadRequest("Not able to log in the Author"));
+      var a =_repo.GetAuthorIfValidCredential(author);
+      return a!=null ? await Task.FromResult(Ok(a)): await Task.FromResult(BadRequest("Not able to log in the Author"));
     }
   }
 }
