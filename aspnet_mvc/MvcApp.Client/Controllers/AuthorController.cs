@@ -142,6 +142,9 @@ namespace MvcApp.Client.Controllers
             articleVM.EditedDate = DateTime.Now;
             articleVM.Author = GenericJSONDeserializerFromTempDataWithComplexObj<AuthorViewModel>(TempData["SignedInAuthor"]);
 
+            // Save the author back to TempData just in case they create more than one article during their session
+            TempData["SignedInAuthor"] = GenericJSONSerializer<AuthorViewModel>(articleVM.Author);
+
             System.Console.WriteLine("Topic: " + articleVM.Topic);
             //System.Console.WriteLine("Topic Entity Id" + articleVM.Topic.EntityId);
             System.Console.WriteLine("Topic Name: " + articleVM.ChosenTopic);
