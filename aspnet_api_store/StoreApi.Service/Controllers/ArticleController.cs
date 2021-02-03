@@ -57,12 +57,11 @@ namespace StoreApi.Service.Controllers
       return await Task.FromResult(Ok());
     }
 
-    [HttpGet("GetArticleByTopic")]
-    public async Task<IActionResult> GetArticlesByTopic(Topic topic)
+    [HttpGet("GetArticleByTopic/{topicName}")]
+    public async Task<IActionResult> GetArticlesByTopic(string topicName)
     {
-      var article = _repo.GetArticlesByTopic(topic);
-      System.Console.WriteLine("Please Select a Topic");
-      return await Task.FromResult(Ok(article));
+      var articles = _repo.GetArticlesByTopic(topicName);
+      return await Task.FromResult(Ok(articles));
     }
 
     [HttpGet("GetArticleByEmail")]

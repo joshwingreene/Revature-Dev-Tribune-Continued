@@ -1,15 +1,27 @@
-@model List<MvcApp.Client.Models.Shared.ViewTopicModel>
+@model MvcApp.Client.Models.Reader.ArticleTopicBundleViewModel
 
-<div class ="topic-menu">
-@foreach (var item in @Model)
-{
-  <form class="navigation form-control" asp-route-id="@item.Name" asp-action="GetReaderArticles" asp-controller="Reader"  method="POST">
+@Html.Partial("TopicNavigation", @Model.Topics)
 
-    <input type="hidden" >
-    <button class="btn btn-sm" type="submit" >@item.Name</button>
-
-    </form>
-}
+<div class ="container-fluid">
+    @for(int i = 0; i < @Model.Articles.Count; i++)
+    {
+        <div class="row " id="section-Article">
+            <div class="col-sm" id="col-div-right">
+            <figure>
+                <img class="figure-img img-fluid" src="http://placekitten.com/300/600" alt="Article Image" style="width:400px;height:300px" >
+            </figure>
+            </div>
+            <div class="col-sm" id="col-div-right">
+            <header>
+                <h2>@Model.Articles[i].Title</h2>
+                <h3>@Model.Articles[i].Topic.Name</h3>
+            </header>
+            <body>
+                <p>@Model.Articles[i].Body</p>
+            </body>
+            <small>@Model.Articles[i].Author.Name</small>
+                <a href="#">Load More..</a>
+            </div>
+        </div>
+    }
 </div>
-
-
