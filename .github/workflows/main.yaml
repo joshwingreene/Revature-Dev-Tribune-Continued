@@ -42,8 +42,8 @@ jobs:
   #         dotnet sonarscanner end /d:sonar.login=$SONARCLOUD_TOKEN
 
   pack:
-    needs:
-      - build
+#     needs:
+#       - build
     #   - test
       # - analyze
     runs-on: ubuntu-20.04
