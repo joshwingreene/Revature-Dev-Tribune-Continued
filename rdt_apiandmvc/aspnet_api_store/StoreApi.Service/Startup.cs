@@ -41,6 +41,15 @@ namespace StoreApi.Service
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StoreApi.Service", Version = "v1" });
             });
+          
+            services.AddCors(options =>
+            {
+               options.AddPolicy(name: MyAllowSpecificOrigins,
+               builder =>
+               {
+                   builder.WithOrigins("https://rdtp2final.azurewebsites.net").AllowAnyHeader().AllowAnyMethod();
+               });
+            });
 
 
 
