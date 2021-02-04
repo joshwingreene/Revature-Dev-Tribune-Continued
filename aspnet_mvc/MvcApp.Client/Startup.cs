@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Okta.AspNetCore;
 
 namespace MvcApp.Client
 {
@@ -23,6 +25,20 @@ namespace MvcApp.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+          services.AddAuthentication(options =>
+          {
+              options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+              options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+              options.DefaultChallengeScheme = OktaDefaults.MvcAuthenticationScheme;
+          })
+          .AddCookie()
+          .AddOktaMvc(new OktaMvcOptions
+          {
+              // Replace these values with your Okta configuration
+              OktaDomain = "https://dev-93701432.okta.com",
+              ClientId = "oktaClient",
+              ClientSecret = "oktaSecret"
+          });
             services.AddControllersWithViews();
         }
 
