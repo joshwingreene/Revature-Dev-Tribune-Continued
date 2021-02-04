@@ -74,14 +74,17 @@ jobs:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: rdtp2final
+          app-name: rdtp2Api
           images: elock721/tribunetest:tribuneapi
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: rdtp2final
+          app-name: rdtp2mvc
           images: elock721/tribunetest:tribunemvc
 
 
 
 
-on: push
+on: 
+  push:
+    branches:
+      -master
