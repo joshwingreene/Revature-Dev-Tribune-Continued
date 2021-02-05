@@ -9,6 +9,10 @@ using Newtonsoft.Json;
 using MvcApp.Client.Models.Shared;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Okta.AspNetCore;
 
 namespace MvcApp.Client.Controllers
 {
@@ -34,13 +38,14 @@ namespace MvcApp.Client.Controllers
     }
 
     [HttpPost("login")]
+    [Authorize]
     public async Task<IActionResult> Login(AuthorViewModel author)
     {
         _http.BaseAddress= new Uri(apiUrl+"Author/AuthorLogin");
         var postTask = await _http.PostAsJsonAsync<AuthorViewModel>("AuthorLogin",author);
 
         TempData["SignedInAuthor"] = await postTask.Content.ReadAsStringAsync();
-        
+
         ViewBag.message = postTask.StatusCode;
         if(postTask.IsSuccessStatusCode)
         {
@@ -52,6 +57,7 @@ namespace MvcApp.Client.Controllers
         ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
         return Content("Needs to login");
     }
+
 
     [HttpGet("author_main")]
     public async Task<IActionResult> ViewAuthorHome()
@@ -188,7 +194,7 @@ namespace MvcApp.Client.Controllers
             if(postTask.IsSuccessStatusCode)
             {
                 System.Console.WriteLine("Success");
-                
+
                 TempData["ArticleVM"] = GenericJSONSerializer<ArticleViewModel>(articleObj);
                 TempData["TopicVMs"] = GenericJSONSerializer<List<TopicViewModel>>(TopicVMs);
                 //return Content("Success");
@@ -212,7 +218,7 @@ namespace MvcApp.Client.Controllers
               var JsonResponse = await ArticleResponse.Content.ReadAsStringAsync();
 
               ArticleVM = GenericJSONDeserializerFromTempDataWithComplexObj<ArticleViewModel>(JsonResponse);
-              ArticleWasRecieved = true;   
+              ArticleWasRecieved = true;
           }
 
           ArticleVM.ChosenTopic = ArticleVM.Topic.Name;
@@ -243,7 +249,7 @@ namespace MvcApp.Client.Controllers
           }
 
           if (ArticleWasRecieved && TopicsWereReceived)
-          { 
+          {
             ArticleVM.AvailableTopics = TopicSelectListItems;
 
             TempData["TopicVMs"] = GenericJSONSerializer<List<TopicViewModel>>(TopicVMs);
@@ -254,7 +260,7 @@ namespace MvcApp.Client.Controllers
 
           return View("Error");
         }
-        
+
 
         [HttpPost("edit_article")]
         public IActionResult EditArticle(ArticleViewModel articleVM)
@@ -326,6 +332,8 @@ namespace MvcApp.Client.Controllers
           }
           return View("Error");
         }
+
+
 
   }
 }
