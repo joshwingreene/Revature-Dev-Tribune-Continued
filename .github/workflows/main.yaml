@@ -62,7 +62,26 @@ jobs:
       - run: docker logout
 
 
-  deploy:
+  # deploy:
+  #   needs:
+  #     - build
+  #     - pack
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: azure/login@v1
+  #       with:
+  #           creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: rdtproject2api
+  #         images: elock721/tribunetest:tribuneapi
+  #     - uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: rdtp2final
+  #         images: elock721/tribunetest:tribunemvc
+
+  deploy_mvc:
     needs:
       - build
       - pack
@@ -71,15 +90,26 @@ jobs:
       - uses: actions/checkout@v2
       - uses: azure/login@v1
         with:
-            creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - uses: azure/webapps-deploy@v2
-        with:
-          app-name: rdtproject2api
-          images: elock721/tribunetest:tribuneapi
+          creds: ${{ secrets.AZURE_CREDENTIALS_MVC }}
       - uses: azure/webapps-deploy@v2
         with:
           app-name: rdtp2final
           images: elock721/tribunetest:tribunemvc
+
+  deploy_api:
+      needs:
+        - build
+        - pack
+      runs-on: ubuntu-20.04
+      steps:
+        - uses: actions/checkout@v2
+        - uses: azure/login@v1
+          with:
+              creds: ${{ secrets.AZURE_CREDENTIALS_API }}
+        - uses: azure/webapps-deploy@v2
+          with:
+              app-name: rdtproject2api
+              images: elock721/tribunetest:tribuneapi
 
 
 
