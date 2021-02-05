@@ -40,7 +40,7 @@ namespace StoreApi.Service.Controllers
     public async Task<IActionResult> CreateArticle(Article article)
     {
       // get the author and put it into article (similar reasoning to the comment directly below this one)
-      article.Author = _repo.GetAuthors().FirstOrDefault(a => a.EntityId == article.Author.EntityId);
+      article.Author = _repo.GetAuthors().FirstOrDefault(a => a.Name == article.Author.Name);//Temporary
 
       // get the assoc topic and add it to the article (needed bc it looks like even when translating the topic view model to topic in an article, it still isn't equiv)
       article.Topic = _repo.GetTopics().FirstOrDefault(t => t.EntityId == article.Topic.EntityId);

@@ -3,7 +3,8 @@
     switch (CurrentControllerName)
     {
         case "Author":
-            ViewBag.Title = "Author"; // TODO: Change this to the user's first name when Okta sign-in is functioning and do something similar for the reader perspective
+            ViewBag.Title = @User.Identity.Name;
+            // TODO: Change this to the user's first name when Okta sign-in is functioning and do something similar for the reader perspective
             Layout = "~/Views/Shared/_LayoutAuthor.cshtml";
             break;
         case "Reader":

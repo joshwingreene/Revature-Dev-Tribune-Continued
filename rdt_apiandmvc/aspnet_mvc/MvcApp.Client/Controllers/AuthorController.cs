@@ -34,31 +34,55 @@ namespace MvcApp.Client.Controllers
     public IActionResult Home()
     {
         ViewBag.Title = "Login";
+        if(HttpContext.User.Identity.IsAuthenticated)
+        {
+          return RedirectToAction("author_main");
+        }
+
         return View("Home");
     }
 
-    [HttpPost("login")]
-    [Authorize]
-    public async Task<IActionResult> Login(AuthorViewModel author)
+    // [HttpPost("login")]
+    // [Authorize]
+    // public async Task<IActionResult> Login(AuthorViewModel author)
+    // {
+    //     _http.BaseAddress= new Uri(apiUrl+"Author/AuthorLogin");
+    //     var postTask = await _http.PostAsJsonAsync<AuthorViewModel>("AuthorLogin",author);
+
+    //     TempData["SignedInAuthor"] = await postTask.Content.ReadAsStringAsync();
+
+    //     ViewBag.message = postTask.StatusCode;
+    //     if(postTask.IsSuccessStatusCode)
+    //     {
+    //       var response2 = await _http.GetAsync(apiUrl + "Article/articles");
+    //       var jsonResponse = await response2.Content.ReadAsStringAsync();
+    //       var ObjOrderList = GenericJSONDeserializerFromTempDataWithComplexObj<List<ArticleViewModel>>(jsonResponse);
+    //       return await Task.FromResult(View("AuthorMain", ObjOrderList));
+    //     }
+    //     ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
+    //     return Content("Needs to login");
+    // }
+
+
+    [HttpGet("Login")]
+    public IActionResult Login()
     {
-        _http.BaseAddress= new Uri(apiUrl+"Author/AuthorLogin");
-        var postTask = await _http.PostAsJsonAsync<AuthorViewModel>("AuthorLogin",author);
 
-        TempData["SignedInAuthor"] = await postTask.Content.ReadAsStringAsync();
+      System.Console.WriteLine("Got here LOG IN OKTA");
+      if (!HttpContext.User.Identity.IsAuthenticated)
+      {
+        System.Console.WriteLine("INSIDE OKTA");
 
-        ViewBag.message = postTask.StatusCode;
-        if(postTask.IsSuccessStatusCode)
-        {
-          var response2 = await _http.GetAsync(apiUrl + "Article/articles");
-          var jsonResponse = await response2.Content.ReadAsStringAsync();
-          var ObjOrderList = GenericJSONDeserializerFromTempDataWithComplexObj<List<ArticleViewModel>>(jsonResponse);
-          return await Task.FromResult(View("AuthorMain", ObjOrderList));
-        }
-        ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
-        return Content("Needs to login");
+        return Challenge(OktaDefaults.MvcAuthenticationScheme);
+
+      }
+      TempData["SignedInAuthor"] = JsonConvert.SerializeObject(new AuthorViewModel { Name = HttpContext.User.Identity.Name});
+      System.Console.WriteLine("HTTP CONTEXT: "+ HttpContext.User.Identity.Name);
+
+      return RedirectToAction("author_main");
     }
 
-
+    [Authorize]
     [HttpGet("author_main")]
     public async Task<IActionResult> ViewAuthorHome()
     {
@@ -92,7 +116,7 @@ namespace MvcApp.Client.Controllers
       return RedirectToAction("author_main");
     }
 
-
+     [Authorize]
     [HttpGet("view_article")]
     public IActionResult ViewArticle()
     {
@@ -137,7 +161,7 @@ namespace MvcApp.Client.Controllers
         {
           return JsonConvert.DeserializeObject<T>(modelTempData.ToString());
         }
-
+         [Authorize]
         [HttpPost("create_article")]
         public async Task<IActionResult> CreateArticle(ArticleViewModel articleVM)
         {
@@ -206,6 +230,7 @@ namespace MvcApp.Client.Controllers
             return View("show_article_creator");
         }
 
+        [Authorize]
         [HttpGet("show_article_editor/{id}")]
         public async Task<IActionResult> ShowArticleEditor(long id)
         {
@@ -261,7 +286,7 @@ namespace MvcApp.Client.Controllers
           return View("Error");
         }
 
-
+        [Authorize]
         [HttpPost("edit_article")]
         public IActionResult EditArticle(ArticleViewModel articleVM)
         {
@@ -316,7 +341,7 @@ namespace MvcApp.Client.Controllers
 
             return View("ArticleEditor", articleVM);
         }
-
+        [Authorize]
         [HttpGet("temp")]
         public async Task<IActionResult> Get()
         {
@@ -332,8 +357,5 @@ namespace MvcApp.Client.Controllers
           }
           return View("Error");
         }
-
-
-
   }
 }
