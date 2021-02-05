@@ -36,9 +36,9 @@ namespace MvcApp.Client
           {
 
               // Replace these values with your Okta configuration
-                    OktaDomain = Configuration["oktaDomain"],
-                    ClientId = Configuration["oktaClient"],
-                    ClientSecret = Configuration["oktaSecret"]
+                    OktaDomain = "https://dev-93701432.okta.com",
+                    ClientId = "0oa5295nqsdEl0Z0o5d6",
+                    ClientSecret = "IrQkquSKr0NRVrbr19A95ofEolsLtM5ljZGGgJOU"
           });
             services.AddControllersWithViews();
         }
