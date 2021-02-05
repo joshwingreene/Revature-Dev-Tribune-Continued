@@ -90,7 +90,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_MVC }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - uses: azure/webapps-deploy@v2
         with:
           app-name: rdtp2final
@@ -105,7 +105,7 @@ jobs:
         - uses: actions/checkout@v2
         - uses: azure/login@v1
           with:
-              creds: ${{ secrets.AZURE_CREDENTIALS_API }}
+              creds: ${{ secrets.AZURE_CREDENTIALS_1 }}
         - uses: azure/webapps-deploy@v2
           with:
               app-name: rdtproject2api
