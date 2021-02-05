@@ -4,17 +4,17 @@ Revature Dev Tribune is a web application that serves as both a developer-focuse
 
 **Tech Stack**
 
-ASP.NET Core 
-C# 
-SQL
-EF Core 
-MVC
-HTML 
-CSS 
-Bootstrap 
-GitHub Actions (DevOps) 
-Azure
-Web API (Web Services) 
-Docker
-xUnit
-SonarCloud 
+- ASP.NET Core 
+- C# 
+- SQL
+- EF Core 
+- MVC
+- HTML 
+- CSS 
+- Bootstrap 
+- GitHub Actions (DevOps) 
+- Azure
+- Web API (Web Services) 
+- Docker
+- xUnit
+- SonarCloud 
