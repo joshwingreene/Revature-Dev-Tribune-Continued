@@ -34,10 +34,11 @@ namespace MvcApp.Client
           .AddCookie()
           .AddOktaMvc(new OktaMvcOptions
           {
+
               // Replace these values with your Okta configuration
-              OktaDomain = "https://dev-93701432.okta.com",
-              ClientId = "oktaClient",
-              ClientSecret = "oktaSecret"
+                    OktaDomain = Configuration["oktaDomain"],
+                    ClientId = Configuration["oktaClient"],
+                    ClientSecret = Configuration["oktaSecret"]
           });
             services.AddControllersWithViews();
         }
@@ -55,10 +56,11 @@ namespace MvcApp.Client
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
