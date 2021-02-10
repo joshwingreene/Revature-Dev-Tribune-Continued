@@ -1,8 +1,10 @@
-**Project Description**
+# Revature Dev Tribune
+
+## Project Description
 
 Revature Dev Tribune is a web application that serves as both a developer-focused news website and content management system. It was inspired by the limited edition issue of The Daily Coder newspaper from CommitStrip's Kickstarter in 2016. The goal of this application is to allow publishers of the Revature Dev Tribune to create, edit, and publish articles. Similarly, readers of the Revature Dev Tribune will be able to read and interact with said articles.
 
-**Tech Stack**
+## Technologies Used
 
 - ASP.NET Core 
 - C# 
@@ -18,3 +20,35 @@ Revature Dev Tribune is a web application that serves as both a developer-focuse
 - Docker
 - xUnit
 - SonarCloud 
+
+## Features
+
+### Ready Features
+
+* Place holder
+* Place holder
+* Place holder
+
+### To Do List
+* Place holder
+* Place holder
+* Place holder
+
+## Getting Started
+
+1.  Place holder
+2.  Place holder
+3.  Place holder
+
+## Usage
+
+1. Step One
+![Alt text](File Path "Main")
+2. Step Two
+![Alt text](File Path "Main")
+3. Step Three
+![Alt text](File Path "Main")
+
+## License
+
+* MIT
