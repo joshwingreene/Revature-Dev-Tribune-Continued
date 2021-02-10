@@ -25,9 +25,9 @@ Revature Dev Tribune is a web application that serves as both a developer-focuse
 
 ### Ready Features
 
-* Place holder
-* Place holder
-* Place holder
+* Login as either a reader or author
+* Search and reader articles at your leisure
+* Wrtie and publish an article as an author
 
 ### To Do List
 * Place holder
