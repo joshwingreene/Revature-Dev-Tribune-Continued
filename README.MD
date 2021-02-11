@@ -30,15 +30,14 @@ Revature Dev Tribune is a web application that serves as both a developer-focuse
 * Wrtie and publish an article as an author
 
 ### To Do List
-* Place holder
-* Place holder
-* Place holder
+* Social Interactions with Comments and Likes
+* Tie in External API
 
 ## Getting Started
 
-1.  Place holder
-2.  Place holder
-3.  Place holder
+1.  Clone the project (3) dotnet run in both directories.
+2.  Dotnet restore in both the Service and MVC directories 
+3.  Dotnet Watch Run in StoreApi.Service and MvcApp.Client
 
 ## Usage
 
