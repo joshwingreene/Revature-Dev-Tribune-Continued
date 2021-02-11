@@ -35,7 +35,7 @@ Revature Dev Tribune is a web application that serves as both a developer-focuse
 
 ## Getting Started
 
-1.  Clone the project (3) dotnet run in both directories.
+1.  Clone the project
 2.  Dotnet restore in both the Service and MVC directories 
 3.  Dotnet Watch Run in StoreApi.Service and MvcApp.Client
 
